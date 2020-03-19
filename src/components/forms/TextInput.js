@@ -3,39 +3,47 @@ import {StyleSheet} from 'react-native';
 import {Input} from 'react-native-elements';
 import {Colors} from '../../styles/colors';
 
-const TextInput = ({
-  onChangeText,
-  onBlur,
-  value,
-  autoCompleteType,
-  autoCapitalize,
-  label,
-  placeholder,
-  errorMessage,
-  secureTextEntry,
-  ...props
-}) => {
-  return (
-    <Input
-      {...props}
-      inputStyle={styles.inputStyle}
-      inputContainerStyle={styles.inputContainerStyle}
-      labelStyle={styles.labelStyle}
-      placeholderTextColor={Colors.fgPrimary}
-      errorStyle={styles.errorStyle}
-      onChangeText={onChangeText}
-      onBlur={onBlur}
-      value={value}
-      autoCapitalize={autoCapitalize}
-      autoCompleteType={autoCompleteType}
-      autoCorrect={false}
-      label={label}
-      placeholder={placeholder}
-      errorMessage={errorMessage}
-      secureTextEntry={secureTextEntry}
-    />
-  );
-};
+const TextInput = React.forwardRef(
+  (
+    {
+      onChangeText,
+      onBlur,
+      value,
+      autoCompleteType,
+      autoCapitalize,
+      label,
+      placeholder,
+      errorMessage,
+      secureTextEntry,
+      onSubmitEditing,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <Input
+        {...props}
+        inputStyle={styles.inputStyle}
+        inputContainerStyle={styles.inputContainerStyle}
+        labelStyle={styles.labelStyle}
+        placeholderTextColor={Colors.fgPrimary}
+        errorStyle={styles.errorStyle}
+        onChangeText={onChangeText}
+        onBlur={onBlur}
+        value={value}
+        autoCapitalize={autoCapitalize}
+        autoCompleteType={autoCompleteType}
+        autoCorrect={false}
+        label={label}
+        placeholder={placeholder}
+        errorMessage={errorMessage}
+        secureTextEntry={secureTextEntry}
+        ref={ref}
+        onSubmitEditing={onSubmitEditing}
+      />
+    );
+  },
+);
 
 export default TextInput;
 

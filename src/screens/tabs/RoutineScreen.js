@@ -18,7 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchRoutines} from '../../redux/routine/actions';
 import RoutineCard from '../../components/routines/RoutineCard';
 
-const RoutineScreen = () => {
+const RoutineScreen = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const fetching = useSelector(state => state.routines.fetching);
   const modified = useSelector(state => state.routines.modified);
@@ -48,11 +48,14 @@ const RoutineScreen = () => {
   return (
     <Portal.Host>
       <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.bgSecondary} />
+        <StatusBar animated={true} backgroundColor={Colors.bgSecondary} />
         <View style={styles.titleContainer}>
           <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
           <Headline>Routines</Headline>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('CreateRoutine');
+            }}>
             <Feather name="plus" size={26} color={Colors.fgPrimary} />
           </TouchableOpacity>
         </View>

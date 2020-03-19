@@ -65,3 +65,33 @@ export const deleteRoutine = id => async dispatch => {
     }
   }
 };
+
+export const createRoutine = routineData => async dispatch => {
+  dispatch({type: RoutineTypes.ROUTINE_CREATE_START});
+
+  try {
+    const token = (await auth().currentUser.getIdTokenResult()).token;
+
+    const config = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+
+    await axios.post('/api/routines', routineData, config);
+
+    dispatch({type: RoutineTypes.ROUTINE_CREATE_SUCCESS});
+  } catch (error) {
+    if (!error.response) {
+      dispatch({
+        type: RoutineTypes.ROUTINE_CREATE_ERROR,
+        payload: 'Can not reach backend',
+      });
+    } else {
+      dispatch({
+        type: RoutineTypes.ROUTINE_CREATE_ERROR,
+        payload: error.response.data.error,
+      });
+    }
+  }
+};

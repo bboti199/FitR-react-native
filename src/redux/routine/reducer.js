@@ -6,6 +6,9 @@ const initialState = {
   deleteError: null,
   modified: false,
   fetching: false,
+  creating: false,
+  createFinished: false,
+  createError: null,
 };
 
 export default function(state = initialState, action) {
@@ -18,6 +21,7 @@ export default function(state = initialState, action) {
         fetching: true,
         deleteError: null,
         fetchError: null,
+        createFinished: false,
       };
     case RoutineTypes.ROUTINE_FETCH_SUCCESS:
       return {
@@ -48,6 +52,26 @@ export default function(state = initialState, action) {
         ...state,
         modified: false,
         fetchError: payload,
+      };
+    case RoutineTypes.ROUTINE_CREATE_START:
+      return {
+        ...state,
+        creating: true,
+      };
+    case RoutineTypes.ROUTINE_CREATE_SUCCESS:
+      return {
+        ...state,
+        modified: true,
+        creating: false,
+        createFinished: true,
+      };
+    case RoutineTypes.ROUTINE_CREATE_ERROR:
+      return {
+        ...state,
+        modified: false,
+        creating: false,
+        createFinished: false,
+        createEror: payload,
       };
     case RoutineTypes.CLEANUP:
       return initialState;

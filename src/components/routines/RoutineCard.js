@@ -13,9 +13,14 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../styles/colors';
 
+import {useDispatch} from 'react-redux';
+import {createRoutine, deleteRoutine} from '../../redux/routine/actions';
+
 const RoutineCard = ({routine}) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  const dispatch = useDispatch();
 
   const hideDialog = () => {
     setDialogVisible(false);
@@ -39,6 +44,7 @@ const RoutineCard = ({routine}) => {
               color="#1877f2"
               onPress={() => {
                 hideDialog();
+                dispatch(deleteRoutine(routine._id));
               }}>
               Yes
             </Button>
