@@ -8,6 +8,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {uploadProgressData} from '../../redux/routine/actions';
+import {createLog} from '../../redux/logs/actions';
 
 import {Colors} from '../../styles/colors';
 
@@ -58,6 +59,7 @@ const WorkoutScreen = ({navigation, route}) => {
       },
     }));
 
+    dispatch(createLog(routine._id));
     dispatch(uploadProgressData(routine._id, submitData));
   };
 

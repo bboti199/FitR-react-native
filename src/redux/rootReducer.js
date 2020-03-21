@@ -5,6 +5,7 @@ import auth from './auth/reducer';
 import exercise from './exercise/reducer';
 import routine from './routine/reducer';
 import netinfo from './netinfo/reducer';
+import logs from './logs/reducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -21,9 +22,15 @@ const routinePersistConfig = {
   storage: AsyncStorage,
 };
 
+const logPersistConfig = {
+  key: 'logs',
+  storage: AsyncStorage,
+};
+
 export default combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   exercises: persistReducer(exercisePersistConfig, exercise),
   routines: persistReducer(routinePersistConfig, routine),
   netinfo,
+  logs: persistReducer(logPersistConfig, logs),
 });

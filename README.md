@@ -29,5 +29,5 @@ Currently it only supports Android and it is not complete yet.
 - [x] Update routines.
 - [x] Implement progress tracking.
 - [ ] Implement exercise filtering.
-- [ ] Implement logging.
+- [x] Implement logging.
 - [ ] Light mode switch.
