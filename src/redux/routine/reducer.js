@@ -10,7 +10,7 @@ const initialState = {
   createFinished: false,
   createError: null,
   progressDataUploading: false,
-  progressDataUploadError: 'Test',
+  progressDataUploadError: null,
   progressUploadCompleted: false,
   routineUpdating: false,
   routineUpdateComplete: false,

@@ -5,6 +5,7 @@ import ExerciseSelectionScreen from '../screens/other/ExerciseSelectionScreen';
 import WorkoutScreen from '../screens/other/WorkoutScreen';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import ProgressInfoScreen from '../screens/other/ProgressInfoScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,5 +18,6 @@ export const HomeStack = () => (
       component={ExerciseSelectionScreen}
     />
     <Stack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+    <Stack.Screen name="ProgressInfoScreen" component={ProgressInfoScreen} />
   </Stack.Navigator>
 );
