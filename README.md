@@ -27,7 +27,7 @@ Currently it only supports Android and it is not complete yet.
 - [x] Implement routine and exercise creation.
 - [x] Delete routines and exercises.
 - [x] Update routines.
+- [x] Implement progress tracking.
 - [ ] Implement exercise filtering.
-- [ ] Implement progress tracking.
 - [ ] Implement logging.
 - [ ] Light mode switch.
