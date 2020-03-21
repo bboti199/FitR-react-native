@@ -13,12 +13,17 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../styles/colors';
 
+import {useNavigation} from '@react-navigation/native';
+
 import {useDispatch} from 'react-redux';
-import {createRoutine, deleteRoutine} from '../../redux/routine/actions';
+import {deleteRoutine} from '../../redux/routine/actions';
+import RoutineUpdateModal from './RoutineUpdateModal';
 
 const RoutineCard = ({routine}) => {
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -28,6 +33,13 @@ const RoutineCard = ({routine}) => {
 
   return (
     <View>
+      <RoutineUpdateModal
+        visible={updateModalVisible}
+        setVisible={setUpdateModalVisible}
+        initDesc={routine.description}
+        initName={routine.name}
+        id={routine._id}
+      />
       <Portal>
         <Dialog
           visible={dialogVisible}
@@ -37,11 +49,11 @@ const RoutineCard = ({routine}) => {
             Are you sure you want to delete this routine?
           </Dialog.Title>
           <Dialog.Actions style={styles.dialogActionStyle}>
-            <Button color="#1877f2" onPress={hideDialog}>
+            <Button color={Colors.bluePrimary} onPress={hideDialog}>
               No
             </Button>
             <Button
-              color="#1877f2"
+              color={Colors.bluePrimary}
               onPress={() => {
                 hideDialog();
                 dispatch(deleteRoutine(routine._id));
@@ -96,9 +108,11 @@ const RoutineCard = ({routine}) => {
               style={styles.buttonStyle}
               onPress={() => {
                 if (editMode) {
-                  console.log('Edit pressed');
+                  setUpdateModalVisible(true);
                 } else {
-                  console.log('Start pressed');
+                  navigation.navigate('WorkoutScreen', {
+                    routine,
+                  });
                 }
               }}>
               {editMode ? 'EDIT' : 'START'}

@@ -9,6 +9,12 @@ const initialState = {
   creating: false,
   createFinished: false,
   createError: null,
+  progressDataUploading: false,
+  progressDataUploadError: 'Test',
+  progressUploadCompleted: false,
+  routineUpdating: false,
+  routineUpdateComplete: false,
+  updateError: null,
 };
 
 export default function(state = initialState, action) {
@@ -22,6 +28,8 @@ export default function(state = initialState, action) {
         deleteError: null,
         fetchError: null,
         createFinished: false,
+        progressUploadCompleted: false,
+        routineUpdateComplete: false,
       };
     case RoutineTypes.ROUTINE_FETCH_SUCCESS:
       return {
@@ -73,6 +81,46 @@ export default function(state = initialState, action) {
         createFinished: false,
         createEror: payload,
       };
+    case RoutineTypes.ROUTINE_UPDATE_START:
+      return {
+        ...state,
+        routineUpdating: false,
+        updateError: null,
+        routineUpdateComplete: true,
+      };
+    case RoutineTypes.ROUTINE_UPDATE_ERROR:
+      return {
+        ...state,
+        routineUpdating: false,
+        updateError: payload,
+      };
+    case RoutineTypes.ROUTINE_UPDATE_SUCCESS:
+      return {
+        ...state,
+        routineUpdating: false,
+        modified: true,
+      };
+    case RoutineTypes.PROGRESS_CREATE_START:
+      return {
+        ...state,
+        progressDataUploading: true,
+        progressDataUploadError: null,
+        progressUploadCompleted: false,
+      };
+    case RoutineTypes.PROGRESS_CREATE_SUCCESS:
+      return {
+        ...state,
+        progressDataUploading: false,
+        progressUploadCompleted: true,
+        modified: true,
+      };
+    case RoutineTypes.PROGRESS_CREATE_ERROR:
+      return {
+        ...state,
+        progressDataUploading: false,
+        progressDataUploadError: payload,
+      };
+
     case RoutineTypes.CLEANUP:
       return initialState;
     default:

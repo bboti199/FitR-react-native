@@ -2,6 +2,7 @@ import React from 'react';
 import {BottomTabs} from './HomeTabs';
 import CreateRoutineScreen from '../screens/other/CreateRoutineScreen';
 import ExerciseSelectionScreen from '../screens/other/ExerciseSelectionScreen';
+import WorkoutScreen from '../screens/other/WorkoutScreen';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -15,5 +16,6 @@ export const HomeStack = () => (
       name="ExerciseSelection"
       component={ExerciseSelectionScreen}
     />
+    <Stack.Screen name="WorkoutScreen" component={WorkoutScreen} />
   </Stack.Navigator>
 );

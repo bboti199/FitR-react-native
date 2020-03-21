@@ -26,7 +26,7 @@ Currently it only supports Android and it is not complete yet.
 ## TODOS:
 - [x] Implement routine and exercise creation.
 - [x] Delete routines and exercises.
-- [ ] Update routines and exercises.
+- [x] Update routines.
 - [ ] Implement exercise filtering.
 - [ ] Implement progress tracking.
 - [ ] Implement logging.

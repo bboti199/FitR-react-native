@@ -81,7 +81,6 @@ const RoutineScreen = ({navigation}) => {
               </View>
             ) : (
               <FlatList
-                style={{marginBottom: 50}}
                 data={routines}
                 renderItem={({item}) => <RoutineCard routine={item} />}
                 keyExtractor={item => item._id}
@@ -119,8 +118,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     paddingTop: 30,
     paddingHorizontal: 10,
   },
