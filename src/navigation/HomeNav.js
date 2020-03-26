@@ -10,6 +10,7 @@ const Drawer = createDrawerNavigator();
 
 export const HomeNavigation = () => (
   <Drawer.Navigator
+    backBehavior="initialRoute"
     drawerContent={({navigation}) => <DrawerContent navigation={navigation} />}
     initialRouteName="Home">
     <Drawer.Screen name="Home" component={HomeStack} />

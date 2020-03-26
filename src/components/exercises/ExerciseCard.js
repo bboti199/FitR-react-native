@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {Card, Paragraph, Title} from 'react-native-paper';
@@ -6,11 +6,23 @@ import {Card, Paragraph, Title} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {deleteExercise} from '../../redux/exercise/actions';
 
+import Animated, {Easing, Extrapolate} from 'react-native-reanimated';
+
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../styles/colors';
 
 const ExerciseCard = ({exercise}) => {
   const dispatch = useDispatch();
+  const [opacityAnimated] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(opacityAnimated, {
+      toValue: 1,
+      duration: 150,
+      useNativeDriver: true,
+      easing: Easing.cubic,
+    }).start();
+  }, []);
 
   const RightActions = () => {
     return (
@@ -28,7 +40,20 @@ const ExerciseCard = ({exercise}) => {
 
   return (
     <Swipeable renderRightActions={RightActions} overshootRight={false}>
-      <Card style={styles.cardStyle}>
+      <Animated.View
+        style={{
+          ...styles.cardStyle,
+          opacity: opacityAnimated,
+          transform: [
+            {
+              scaleX: opacityAnimated.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.75, 1],
+                extrapolate: Extrapolate.CLAMP,
+              }),
+            },
+          ],
+        }}>
         <Card.Content>
           <View style={styles.container}>
             <Title>{exercise.name}</Title>
@@ -38,7 +63,7 @@ const ExerciseCard = ({exercise}) => {
             </View>
           </View>
         </Card.Content>
-      </Card>
+      </Animated.View>
     </Swipeable>
   );
 };
@@ -61,6 +86,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 20,
     backgroundColor: Colors.bgSecondary,
+    paddingVertical: 15,
   },
   rightActionContainer: {
     justifyContent: 'center',

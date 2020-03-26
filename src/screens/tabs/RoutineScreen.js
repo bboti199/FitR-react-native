@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   routineContainer: {
     marginTop: 20,
     marginVertical: 5,
-    marginBottom: 50,
+    marginBottom: 30,
   },
   errorText: {
     color: Colors.red,

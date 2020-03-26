@@ -16,7 +16,11 @@ import {Colors} from '../styles/colors';
 const Tab = createMaterialBottomTabNavigator();
 
 export const BottomTabs = () => (
-  <Tab.Navigator initialRouteName="Routines" barStyle={styles.barStyle}>
+  <Tab.Navigator
+    initialRouteName="Routines"
+    backBehavior="initialRoute"
+    sceneAnimationEnabled={false}
+    barStyle={styles.barStyle}>
     <Tab.Screen
       name="Routines"
       component={RoutineScreen}

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    backgroundColor: Colors.bgSecondary,
+    backgroundColor: Colors.darkGrey,
   },
   drawerContent: {
     flex: 1,

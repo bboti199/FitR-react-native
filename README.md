@@ -28,6 +28,7 @@ Currently it only supports Android and it is not complete yet.
 - [x] Delete routines and exercises.
 - [x] Update routines.
 - [x] Implement progress tracking.
-- [ ] Implement exercise filtering.
 - [x] Implement logging.
+- [ ] Move chart data extraction to server side.
+- [ ] Implement exercise filtering.
 - [ ] Light mode switch.

@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {StyleSheet, View, FlatList, BackHandler} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {Headline, Button, Portal, Dialog, Text} from 'react-native-paper';
 
@@ -19,6 +20,24 @@ const WorkoutScreen = ({navigation, route}) => {
   const error = useSelector(state => state.routines.progressDataUploadError);
   const completed = useSelector(
     state => state.routines.progressUploadCompleted,
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if (!dialogVisible) {
+          setDialogVisible(true);
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [dialogVisible, setDialogVisible]),
   );
 
   useEffect(() => {

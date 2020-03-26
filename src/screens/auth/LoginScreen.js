@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -52,11 +52,14 @@ const LoginScreen = ({navigation}) => {
 
   const togglePasswordSecure = () => setPasswordSecure(!passwordSecure);
 
+  const input2Ref = useRef(null);
+
   useEffect(() => {
     Animated.timing(slideUpAnim, {
       toValue: -500,
       duration: 1000,
       easing: Easing.bounce,
+      useNativeDriver: true,
     }).start();
   }, [slideUpAnim]);
 
@@ -99,6 +102,7 @@ const LoginScreen = ({navigation}) => {
                 autoCompleteType="email"
                 onBlur={handleBlur('email')}
                 errorMessage={touched.email && errors.email}
+                onSubmitEditing={() => input2Ref.current.focus()}
               />
               <TextInput
                 label="Password"
@@ -109,6 +113,7 @@ const LoginScreen = ({navigation}) => {
                 autoCapitalize="none"
                 autoCompleteType="password"
                 onBlur={handleBlur('password')}
+                ref={input2Ref}
                 errorMessage={touched.password && errors.password}
                 rightIcon={
                   <TouchableOpacity onPress={togglePasswordSecure}>

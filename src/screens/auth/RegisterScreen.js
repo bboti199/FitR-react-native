@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,15 +7,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {Text, Button} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import {Caption} from 'react-native-paper';
 import TextInput from '../../components/forms/TextInput';
 import {default as CustomButton} from '../../components/forms/Button';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Animated, {Easing} from 'react-native-reanimated';
-
-import {GoogleSigninButton} from '@react-native-community/google-signin';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -57,6 +55,10 @@ const RegisterScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const [slideUpAnim] = useState(new Animated.Value(0));
+
+  const usernameField = useRef(null);
+  const passField = useRef(null);
+  const passRepeatField = useRef(null);
 
   const togglePasswordSecure = () => setPasswordSecure(!passwordSecure);
   const togglePasswordRepeatSecure = () =>
@@ -114,6 +116,7 @@ const RegisterScreen = ({navigation}) => {
                 autoCompleteType="email"
                 onBlur={handleBlur('email')}
                 errorMessage={touched.email && errors.email}
+                onSubmitEditing={() => usernameField.current.focus()}
               />
               <TextInput
                 label="Username"
@@ -124,6 +127,8 @@ const RegisterScreen = ({navigation}) => {
                 autoCompleteType="name"
                 onBlur={handleBlur('username')}
                 errorMessage={touched.username && errors.username}
+                ref={usernameField}
+                onSubmitEditing={() => passField.current.focus()}
               />
               <TextInput
                 label="Password"
@@ -144,6 +149,8 @@ const RegisterScreen = ({navigation}) => {
                     />
                   </TouchableOpacity>
                 }
+                ref={passField}
+                onSubmitEditing={() => passRepeatField.current.focus()}
               />
               <TextInput
                 label="Confirm Password"
@@ -164,6 +171,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                   </TouchableOpacity>
                 }
+                ref={passRepeatField}
               />
 
               {error ? (

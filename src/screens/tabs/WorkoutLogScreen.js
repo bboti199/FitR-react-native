@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {Headline, Button} from 'react-native-paper';
+import {Headline} from 'react-native-paper';
 
 import {Colors} from '../../styles/colors';
+
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchLogs} from '../../redux/logs/actions';
@@ -57,7 +59,7 @@ const WorkoutLogScreen = () => {
 
   const onWeekChanged = data => {
     const startingDate = data;
-    const endingDate = moment(data).add(6, 'days');
+    const endingDate = moment(data).add(7, 'days');
 
     const filteredData = logs.filter(logData => {
       let isValid = moment(logData.createdAt).isBetween(
@@ -78,12 +80,15 @@ const WorkoutLogScreen = () => {
         <TouchableOpacity
           onPress={() => {
             dispatch(fetchLogs());
-            filterData();
           }}>
           <Feather name="refresh-cw" color={Colors.fgPrimary} size={26} />
         </TouchableOpacity>
       </View>
-      <View style={styles.content}>
+      <GestureRecognizer
+        onSwipeLeft={() => calendarRef.current.getNextWeek()}
+        onSwipeRight={() => calendarRef.current.getPreviousWeek()}
+        config={{velocityThreshold: 0.1, directionalOffsetThreshold: 50}}
+        style={styles.content}>
         <CalendarStrip
           style={styles.stripStyle}
           daySelectionAnimation={{
@@ -131,7 +136,7 @@ const WorkoutLogScreen = () => {
             />
           </View>
         )}
-      </View>
+      </GestureRecognizer>
     </View>
   );
 };
