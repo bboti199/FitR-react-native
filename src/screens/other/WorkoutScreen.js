@@ -4,23 +4,42 @@ import {useFocusEffect} from '@react-navigation/native';
 
 import {Headline, Button, Portal, Dialog, Text} from 'react-native-paper';
 
-import RoutineDataCard from '../../components/routines/RoutineDataCard';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {uploadProgressData} from '../../redux/routine/actions';
+import {fetchLatestLog} from '../../redux/routine/actions';
 import {createLog} from '../../redux/logs/actions';
 
 import {Colors} from '../../styles/colors';
+import ProgressDataCard from '../../components/routines/ProgressDataCard';
 
 const WorkoutScreen = ({navigation, route}) => {
   const routine = route.params.routine;
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.routines.progressDataUploading);
-  const error = useSelector(state => state.routines.progressDataUploadError);
+  const [formData, setFormData] = useState([]);
+  const [useLogData, setUseLogData] = useState(false);
+  const loading = useSelector(state => state.logs.creating);
   const completed = useSelector(
     state => state.routines.progressUploadCompleted,
   );
+  const error = null;
+  const latestLog = useSelector(state => state.routines.latestLog);
+  const latestLogFetching = useSelector(
+    state => state.routines.latestLogFetching,
+  );
+  const latestLogFetchError = useSelector(
+    state => state.routines.latestLogFetchError,
+  );
+
+  useEffect(() => {
+    dispatch(fetchLatestLog(routine._id));
+
+    if (latestLog) {
+      setUseLogData(true);
+    } else {
+      setUseLogData(false);
+    }
+  }, [dispatch, routine._id]);
 
   useFocusEffect(
     useCallback(() => {
@@ -46,41 +65,19 @@ const WorkoutScreen = ({navigation, route}) => {
     }
   }, [completed, navigation]);
 
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const [formData, setFormData] = useState([]);
-
-  const updateFormData = (progressInfo, exerciseId) => {
-    const found = formData.find(data => data.progress.id === progressInfo.id);
+  const updateFormData = (progressInfo, exercise) => {
+    const found = formData.find(data => data.id === progressInfo.id);
 
     if (!found) {
-      setFormData([
-        ...formData,
-        {exercise: exerciseId, progress: progressInfo},
-      ]);
+      setFormData([...formData, {exercise, ...progressInfo}]);
     }
   };
 
-  const removeFormData = id => {
-    const found = formData.find(data => data.progress.id === id);
-
-    if (found) {
-      setFormData(formData.filter(data => data.progress.id !== id));
-    }
+  const removeFormData = progressInfoID => {
+    setFormData(formData.filter(data => data.id !== progressInfoID));
   };
 
-  const handleSubmit = () => {
-    let submitData = formData.map(data => ({
-      exercise: data.exercise,
-      progress: {
-        weight: data.progress.weight,
-        sets: data.progress.sets,
-        reps: data.progress.reps,
-      },
-    }));
-
-    dispatch(createLog(routine._id));
-    dispatch(uploadProgressData(routine._id, submitData));
-  };
+  const [dialogVisible, setDialogVisible] = useState(false);
 
   const hideDialog = () => setDialogVisible(false);
 
@@ -119,7 +116,13 @@ const WorkoutScreen = ({navigation, route}) => {
             Cancel
           </Button>
           <Headline>{routine.name}</Headline>
-          <Button onPress={handleSubmit}>Finish</Button>
+          <Button
+            onPress={() => {
+              dispatch(createLog(routine._id, formData));
+              navigation.goBack();
+            }}>
+            Finish
+          </Button>
         </View>
         <View style={styles.content}>
           {error ? (
@@ -127,23 +130,29 @@ const WorkoutScreen = ({navigation, route}) => {
               <Text style={styles.errorText}>{error}</Text>
             </View>
           ) : null}
-          {loading ? (
+          {loading || latestLogFetching ? (
             <View style={styles.indicatorContainer}>
               <LoadingSpinner />
             </View>
+          ) : useLogData ? (
+            <View>
+              <Text>{JSON.stringify(latestLog, null, 2)}</Text>
+            </View>
           ) : (
-            <FlatList
-              data={routine.routineData}
-              renderItem={({item}) => (
-                <RoutineDataCard
-                  routineInfo={item}
-                  updateFormData={updateFormData}
-                  removeFormData={removeFormData}
-                />
-              )}
-              keyExtractor={item => item._id}
-              showsVerticalScrollIndicator={false}
-            />
+            <View style={{marginHorizontal: 20}}>
+              <FlatList
+                data={routine.routineData}
+                keyExtractor={item => item._id}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) => (
+                  <ProgressDataCard
+                    item={item}
+                    updateFormData={updateFormData}
+                    removeFormData={removeFormData}
+                  />
+                )}
+              />
+            </View>
           )}
         </View>
       </View>

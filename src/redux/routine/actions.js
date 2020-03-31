@@ -15,7 +15,7 @@ export const fetchRoutines = () => async dispatch => {
       },
     };
 
-    const res = await axios.get('/api/routines', config);
+    const res = await axios.get('/api/v1/routine', config);
 
     dispatch({
       type: RoutineTypes.ROUTINE_FETCH_SUCCESS,
@@ -48,7 +48,7 @@ export const deleteRoutine = id => async dispatch => {
       },
     };
 
-    await axios.delete(`/api/routines/${id}`, config);
+    await axios.delete(`/api/v1/routine/${id}`, config);
 
     dispatch({type: RoutineTypes.ROUTINE_DELETE_SUCCESS});
   } catch (error) {
@@ -78,7 +78,7 @@ export const createRoutine = routineData => async dispatch => {
       },
     };
 
-    await axios.post('/api/routines', routineData, config);
+    await axios.post('/api/v1/routine', routineData, config);
 
     dispatch({type: RoutineTypes.ROUTINE_CREATE_SUCCESS});
   } catch (error) {
@@ -108,7 +108,7 @@ export const updateRoutine = (routineId, updateData) => async dispatch => {
       },
     };
 
-    await axios.patch(`/api/routines/${routineId}`, updateData, config);
+    await axios.patch(`/api/v1/routine/${routineId}`, updateData, config);
 
     dispatch({type: RoutineTypes.ROUTINE_UPDATE_SUCCESS});
   } catch (error) {
@@ -142,7 +142,7 @@ export const uploadProgressData = (
     };
 
     await axios.post(
-      `/api/routines/${routineId}/progress`,
+      `/api/v1/routine/${routineId}/progress`,
       progressData,
       config,
     );
@@ -157,6 +157,46 @@ export const uploadProgressData = (
     } else {
       dispatch({
         type: RoutineTypes.PROGRESS_CREATE_ERROR,
+        payload: error.response.data.error,
+      });
+    }
+  }
+};
+
+export const fetchLatestLog = id => async dispatch => {
+  dispatch({type: RoutineTypes.FETCH_LATEST_LOG_START});
+
+  try {
+    const token = (await auth().currentUser.getIdTokenResult()).token;
+
+    const config = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+
+    const latestLog = await axios.get(`/api/v1/routine/${id}/history`, config);
+
+    if (latestLog.data.count === 0) {
+      dispatch({
+        type: RoutineTypes.FETCH_LATEST_LOG_ERROR,
+        payload: 'No logs found for routine',
+      });
+    } else {
+      dispatch({
+        type: RoutineTypes.FETCH_LATEST_LOG_SUCCESS,
+        payload: latestLog.data.data[0],
+      });
+    }
+  } catch (error) {
+    if (!error.response) {
+      dispatch({
+        type: RoutineTypes.FETCH_LATEST_LOG_ERROR,
+        payload: 'Can not reach backend',
+      });
+    } else {
+      dispatch({
+        type: RoutineTypes.FETCH_LATEST_LOG_ERROR,
         payload: error.response.data.error,
       });
     }

@@ -58,10 +58,10 @@ const WeightTab = ({progressInfo}) => {
           width={Dimensions.get('window').width}
           height={250}
           chartConfig={{
-            backgroundGradientFrom: Colors.darkGrey,
-            backgroundGradientTo: Colors.darkGrey,
+            backgroundGradientFrom: Colors.bgPrimary,
+            backgroundGradientTo: Colors.bgPrimary,
             decimalPlaces: 1,
-            color: () => Colors.bluePrimary,
+            color: () => Colors.blueSecondary,
             labelColor: () => Colors.grey,
             style: {
               borderRadius: 20,
@@ -69,7 +69,7 @@ const WeightTab = ({progressInfo}) => {
             propsForDots: {
               r: 5,
               strokeWidth: 3,
-              stroke: Colors.blueSecondary,
+              stroke: Colors.bluePrimary,
             },
             propsForLabels: {
               fontFamily: 'NunitoSans-Bold',
@@ -77,7 +77,7 @@ const WeightTab = ({progressInfo}) => {
           }}
           bezier
           style={{
-            paddingVertical: 10,
+            paddingVertical: 0,
           }}
         />
       ) : null}
@@ -96,8 +96,7 @@ const renderTabBar = props => (
       backgroundColor: Colors.fgPrimary,
     }}
     style={{
-      backgroundColor: Colors.darkGrey,
-      marginTop: 10,
+      backgroundColor: Colors.bgSecondary,
     }}
   />
 );

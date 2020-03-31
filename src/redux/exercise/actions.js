@@ -13,7 +13,7 @@ export const fetchExercises = () => async dispatch => {
         Authorization: 'Bearer ' + token,
       },
     };
-    const res = await axios.get('/api/exercises', config);
+    const res = await axios.get('/api/v1/exercise', config);
 
     dispatch({
       type: ExerciseTypes.EXERCISE_FETCH_SUCCESS,
@@ -46,7 +46,7 @@ export const deleteExercise = id => async dispatch => {
       },
     };
 
-    await axios.delete(`/api/exercises/${id}`, config);
+    await axios.delete(`/api/v1/exercise/${id}`, config);
 
     dispatch({type: ExerciseTypes.EXERCISE_DELETE_SUCCESS, payload: id});
   } catch (error) {
@@ -76,7 +76,7 @@ export const addExercise = exerciseData => async dispatch => {
       },
     };
 
-    const res = await axios.post('/api/exercises', exerciseData, config);
+    const res = await axios.post('/api/v1/exercise', exerciseData, config);
 
     dispatch({
       type: ExerciseTypes.EXERCISE_CREATE_SUCCESS,

@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {Headline} from 'react-native-paper';
+import {Headline, Title} from 'react-native-paper';
 
 import {Colors} from '../../styles/colors';
 
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchLogs} from '../../redux/logs/actions';
@@ -34,7 +34,7 @@ const WorkoutLogScreen = () => {
     if (logs === null || logs.length === 0 || modified) {
       dispatch(fetchLogs());
     }
-  }, [dispatch, logs, modified]);
+  }, [dispatch, modified]);
 
   useEffect(() => {
     if (filteredLogs.length === 0) {
@@ -126,6 +126,11 @@ const WorkoutLogScreen = () => {
           <View style={styles.indicatorContainer}>
             <LoadingSpinner />
           </View>
+        ) : logs.length === 0 ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Title>You did not complete a workout yet.</Title>
+          </View>
         ) : (
           <View style={styles.cardContainer}>
             <FlatList
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginHorizontal: -20,
+    marginHorizontal: -10,
   },
   content: {
     flex: 1,

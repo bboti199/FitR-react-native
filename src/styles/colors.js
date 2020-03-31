@@ -10,10 +10,11 @@ export const Colors = {
   grey: '#c9d6df',
   darkGrey: '#252525',
   purple: '#623cbb',
+  surface: '#21252a',
 };
 
 // export const Colors = {
-//   bgPrimary: '#dee3e3',
+//   bgPrimary: '#E2E2E2',
 //   bgSecondary: '#fff',
 //   fgPrimary: '#000',
 //   bluePrimary: '#197fd2',

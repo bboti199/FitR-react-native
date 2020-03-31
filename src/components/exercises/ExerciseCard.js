@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 5,
     borderRadius: 20,
-    backgroundColor: Colors.bgSecondary,
+    backgroundColor: Colors.surface,
     paddingVertical: 15,
   },
   rightActionContainer: {

@@ -13,7 +13,7 @@ export const fetchLogs = () => async dispatch => {
       },
     };
 
-    const res = await axios.get('/api/logs', config);
+    const res = await axios.get('/api/v1/log', config);
 
     dispatch({type: LogTypes.FETCH_LOGS_SUCCESS, payload: res.data.data});
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchLogs = () => async dispatch => {
   }
 };
 
-export const createLog = routineId => async dispatch => {
+export const createLog = (routineId, workout) => async dispatch => {
   dispatch({type: LogTypes.CREATE_LOG_START});
   try {
     const token = (await auth().currentUser.getIdTokenResult()).token;
@@ -43,11 +43,11 @@ export const createLog = routineId => async dispatch => {
     };
 
     const data = {
-      workout: routineId,
-      completed: true,
+      routine: routineId,
+      workout,
     };
 
-    await axios.post('/api/logs', data, config);
+    await axios.post('/api/v1/log', data, config);
 
     dispatch({type: LogTypes.CREATE_LOG_SUCCESS});
   } catch (error) {

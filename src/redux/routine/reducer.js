@@ -15,6 +15,9 @@ const initialState = {
   routineUpdating: false,
   routineUpdateComplete: false,
   updateError: null,
+  latestLogFetching: false,
+  latestLog: null,
+  latestLogFetchError: null,
 };
 
 export default function(state = initialState, action) {
@@ -119,6 +122,27 @@ export default function(state = initialState, action) {
         ...state,
         progressDataUploading: false,
         progressDataUploadError: payload,
+      };
+
+    case RoutineTypes.FETCH_LATEST_LOG_START:
+      return {
+        ...state,
+        latestLogFetching: true,
+        latestLog: null,
+        latestLogFetchError: null,
+      };
+    case RoutineTypes.FETCH_LATEST_LOG_SUCCESS:
+      return {
+        ...state,
+        latestLogFetching: false,
+        latestLog: payload,
+      };
+    case RoutineTypes.FETCH_LATEST_LOG_ERROR:
+      return {
+        ...state,
+        latestLogFetching: false,
+        latestLog: null,
+        latestLogFetchError: payload,
       };
 
     case RoutineTypes.CLEANUP:

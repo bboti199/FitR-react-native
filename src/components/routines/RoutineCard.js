@@ -96,7 +96,7 @@ const RoutineCard = ({routine}) => {
             renderItem={({item}) => (
               <View style={styles.exerciseDetails}>
                 <Text>
-                  {item.progress[0].sets} x {item.exercise.name}
+                  {item.initialSets} x {item.exercise.name}
                 </Text>
               </View>
             )}
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginVertical: 10,
     paddingVertical: 2,
+    borderRadius: 20,
   },
   dialogStyle: {
     borderRadius: 25,

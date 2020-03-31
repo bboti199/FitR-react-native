@@ -8,8 +8,7 @@ import WorkoutLogScreen from '../screens/tabs/WorkoutLogScreen';
 
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../styles/colors';
 
@@ -20,13 +19,14 @@ export const BottomTabs = () => (
     initialRouteName="Routines"
     backBehavior="initialRoute"
     sceneAnimationEnabled={false}
+    style={styles.navStyle}
     barStyle={styles.barStyle}>
     <Tab.Screen
       name="Routines"
       component={RoutineScreen}
       options={{
         tabBarIcon: ({color}) => (
-          <MaterialIcons name="bookmark" color={color} size={24} />
+          <Ionicons name="ios-list" color={color} size={26} />
         ),
       }}
     />
@@ -35,7 +35,7 @@ export const BottomTabs = () => (
       component={ExercisesScreen}
       options={{
         tabBarIcon: ({color}) => (
-          <MaterialIcons name="fitness-center" color={color} size={24} />
+          <Ionicons name="md-fitness" color={color} size={26} />
         ),
       }}
     />
@@ -44,7 +44,7 @@ export const BottomTabs = () => (
       component={ProgressScreen}
       options={{
         tabBarIcon: ({color}) => (
-          <FontAwesome5 name="chart-bar" color={color} size={24} />
+          <Ionicons name="ios-trending-up" color={color} size={26} />
         ),
       }}
     />
@@ -53,7 +53,7 @@ export const BottomTabs = () => (
       component={WorkoutLogScreen}
       options={{
         tabBarIcon: ({color}) => (
-          <MaterialIcons name="whatshot" color={color} size={24} />
+          <Ionicons name="ios-flame" color={color} size={26} />
         ),
       }}
     />
@@ -62,6 +62,14 @@ export const BottomTabs = () => (
 
 const styles = StyleSheet.create({
   barStyle: {
-    backgroundColor: Colors.bgSecondary,
+    backgroundColor: '#101010',
+    borderTopLeftRadius: 45,
+    borderTopRightRadius: 45,
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    paddingVertical: 10,
+  },
+  navStyle: {
+    backgroundColor: Colors.bgPrimary,
   },
 });

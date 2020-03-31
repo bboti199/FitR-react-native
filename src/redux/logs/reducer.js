@@ -50,6 +50,8 @@ export default function(state = initialState, action) {
         creating: false,
         createError: payload,
       };
+    case LogTypes.CLEANUP:
+      return initialState;
     default:
       return state;
   }

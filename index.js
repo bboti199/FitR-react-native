@@ -54,12 +54,11 @@ const colorTheme = {
   ...DefaultTheme.colors,
   text: Colors.fgPrimary,
   primary: Colors.bluePrimary,
-  surface: Colors.bgSecondary,
+  surface: Colors.surface,
   placeholder: Colors.bgSecondary,
   background: Colors.bgPrimary,
   accent: Colors.red,
   disabled: Colors.grey,
-  backgrop: Colors.grey,
 };
 
 const theme = {

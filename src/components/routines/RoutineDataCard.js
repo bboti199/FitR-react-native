@@ -17,13 +17,13 @@ import NumericInput from '@wwdrew/react-native-numeric-textinput';
 const RoutineDataCard = ({routineInfo, updateFormData, removeFormData}) => {
   // const [collapsed, setCollapsed] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [progressData, setProgressData] = useState(routineInfo.progress[0]);
+  const [progressData, setProgressData] = useState(routineInfo);
 
   const toggleCompleted = () => {
     if (!completed) {
       updateFormData(
         {
-          weight: progressData.weight,
+          //weight: progressData.weight,
           sets: progressData.sets,
           reps: progressData.reps,
           id: progressData._id,
@@ -110,7 +110,7 @@ const RoutineDataCard = ({routineInfo, updateFormData, removeFormData}) => {
           <Paragraph>WEIGHT</Paragraph>
           <View />
         </View>
-        {progressData.reps.map((data, idx) => (
+        {/* {progressData.reps.map((data, idx) => (
           <View style={styles.row} key={idx}>
             <Paragraph>{idx + 1}</Paragraph>
             <NumericInput
@@ -132,7 +132,7 @@ const RoutineDataCard = ({routineInfo, updateFormData, removeFormData}) => {
               <Feather name="trash-2" color={Colors.fgPrimary} size={22} />
             </TouchableOpacity>
           </View>
-        ))}
+        ))} */}
         <Button
           onPress={() => {
             setProgressData({
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   formContainer: {
-    backgroundColor: Colors.darkGrey,
+    backgroundColor: Colors.bgSecondary,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     justifyContent: 'center',

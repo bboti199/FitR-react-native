@@ -39,7 +39,7 @@ const WorkoutLogCard = ({logData}) => {
         <Card.Content>
           <View style={styles.container}>
             <View>
-              <Title>{logData.workout.name}</Title>
+              <Title>{logData.routine.name}</Title>
             </View>
             <View style={{alignItems: 'center'}}>
               <Title style={{fontWeight: 'bold'}}>

@@ -4,6 +4,7 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import md5 from 'md5';
 import {AuthTypes} from './types';
 import {ExerciseTypes} from '../exercise/types';
+import {LogTypes} from '../logs/types';
 
 export const loginWithEmailAndPassword = (
   email,
@@ -28,6 +29,7 @@ export const logout = () => async dispatch => {
   auth().signOut();
   dispatch({type: AuthTypes.LOGOUT});
   dispatch({type: ExerciseTypes.CLEANUP});
+  dispatch({type: LogTypes.CLEANUP});
 };
 
 export const googleLogin = () => async dispatch => {

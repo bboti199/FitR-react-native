@@ -48,7 +48,11 @@ const RoutineScreen = ({navigation}) => {
   return (
     <Portal.Host>
       <View style={styles.container}>
-        <StatusBar animated={true} backgroundColor={Colors.bgSecondary} />
+        <StatusBar
+          animated={true}
+          barStyle="light-content"
+          backgroundColor={Colors.bgSecondary}
+        />
         <View style={styles.titleContainer}>
           <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
           <Headline>Routines</Headline>

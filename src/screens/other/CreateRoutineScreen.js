@@ -30,12 +30,12 @@ const formSchema = yup.object().shape({
         exercise: yup.string().required(),
         progress: yup.array().of(
           yup.object().shape({
-            sets: yup
+            initialSets: yup
               .number()
               .integer()
               .moreThan(0)
               .required(),
-            reps: yup.array().of(
+            initialReps: yup.array().of(
               yup
                 .number()
                 .integer()
@@ -150,19 +150,15 @@ const CreateRoutineScreen = ({navigation}) => {
           }
 
           if (reps === '' || sets === '' || sets === 0 || reps === 0) {
-            reps = [];
+            reps = 0;
           } else {
-            reps = new Array(sets).fill(parseInt(reps, 10));
+            reps = parseInt(reps, 10);
           }
 
           return {
             exercise: exerciseDataItem._id,
-            progress: [
-              {
-                sets,
-                reps,
-              },
-            ],
+            initialSets: sets,
+            initialReps: reps,
           };
         }),
       };
