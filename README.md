@@ -1,6 +1,9 @@
-# <p align="center">FitR</p>
+<p align="middle">
+  <img src="./screenshots/fitr_logo.png" width="200">
+  <h1 align="middle">FitR</h1>
+ </p>
 This is a workout tracking application built with react native.  
-It uses a custom Express backend which you can find [here](https://github.com/bboti199/trackr-api) and firebase for handling user sessions and authentication.  
+It uses a custom express backend which you can find [here](https://github.com/bboti199/fitr-api-ts) and firebase for handling user sessions and authentication.  
 Currently it only supports Android and it is not complete yet.
 
 <p align="center">
@@ -8,19 +11,27 @@ Currently it only supports Android and it is not complete yet.
 </p>
 
 <p align="middle">
-<img src="./screenshots/login.png" alt="Login Page" width="200" />
-<img src="./screenshots/routine_home.png" alt="Routine Page" width="200" />
-<img src="./screenshots/create_routine.png" alt="Routine Creation Page" width="200" />
+<img src="./screenshots/login_screen.png" alt="Login Page" width="200" />
+<img src="./screenshots/register_screen.png" alt="Register Page" width="200" />
+<img src="./screenshots/routines_screen.png" alt="Routine Page" width="200" />
 </p>
 
 <p align="middle">
-<img src="./screenshots/exercise_selection.png" alt="Exercise Selection Page" width="200" />
-<img src="./screenshots/drawer.png" alt="Drawer" width="200" />
-<img src="./screenshots/exercises.png" alt="Exercises Page" width="200" />
+<img src="./screenshots/routine_creation_screen.png" alt="Routine Creation Page" width="200" />
+<img src="./screenshots/workout_screen.png" alt="Workout Screen" width="200" />
+<img src="./screenshots/progress_screen.png" alt="Progress Screen" width="200" />
+
+</p>
+
+<p align="middle">
+<img src="./screenshots/chart_data.png" alt="Chart Screen" width="200" />
+<img src="./screenshots/logs_screen.png" alt="Logs Page" width="200" />
+<img src="./screenshots/exercise_delete.png" alt="Exercise Delete" width="200" />
 </p>
 <p align="middle">
 <img src="./screenshots/create_exercise.png" alt="Exercise Creation Page" width="200" />
-<img src="./screenshots/delete_exercise.png" alt="Delete Exercise Page" width="200" />
+<img src="./screenshots/exercises_screen.png" alt="Exercise Page" width="200" />
+
 </p>
 
 ## TODOS:
@@ -29,6 +40,6 @@ Currently it only supports Android and it is not complete yet.
 - [x] Update routines.
 - [x] Implement progress tracking.
 - [x] Implement logging.
-- [ ] Move chart data extraction to server side.
+- [x] Move chart data extraction to server side.
 - [ ] Implement exercise filtering.
 - [ ] Light mode switch.
