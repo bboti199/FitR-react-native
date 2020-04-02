@@ -6,17 +6,20 @@ import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from '../../styles/colors';
 
-const RoutineProgressCard = ({routine}) => {
+const RoutineProgressCard = ({routineName, routineId}) => {
   const navigation = useNavigation();
 
   return (
     <Card style={styles.cardStyle}>
       <Card.Content>
         <View style={styles.itemStyle}>
-          <Title>{routine.name}</Title>
+          <Title>{routineName}</Title>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('ProgressInfoScreen', {routine})
+              navigation.navigate('ProgressInfoScreen', {
+                routineId,
+                routineName,
+              })
             }>
             <Feather name="chevron-right" size={22} color={Colors.fgPrimary} />
           </TouchableOpacity>

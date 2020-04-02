@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {StyleSheet, View, FlatList, BackHandler} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -17,11 +17,8 @@ const WorkoutScreen = ({navigation, route}) => {
   const routine = route.params.routine;
   const dispatch = useDispatch();
   const [formData, setFormData] = useState([]);
-  const [useLogData, setUseLogData] = useState(false);
   const loading = useSelector(state => state.logs.creating);
-  const completed = useSelector(
-    state => state.routines.progressUploadCompleted,
-  );
+  const completed = useSelector(state => state.routines.logCreated);
   const error = null;
   const latestLog = useSelector(state => state.routines.latestLog);
   const latestLogFetching = useSelector(
@@ -31,15 +28,11 @@ const WorkoutScreen = ({navigation, route}) => {
     state => state.routines.latestLogFetchError,
   );
 
-  useEffect(() => {
-    dispatch(fetchLatestLog(routine._id));
-
-    if (latestLog) {
-      setUseLogData(true);
-    } else {
-      setUseLogData(false);
-    }
-  }, [dispatch, routine._id]);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchLatestLog(routine._id));
+    }, [dispatch, routine._id]),
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -59,7 +52,7 @@ const WorkoutScreen = ({navigation, route}) => {
     }, [dialogVisible, setDialogVisible]),
   );
 
-  useEffect(() => {
+  useCallback(() => {
     if (completed) {
       navigation.goBack();
     }
@@ -119,7 +112,7 @@ const WorkoutScreen = ({navigation, route}) => {
           <Button
             onPress={() => {
               dispatch(createLog(routine._id, formData));
-              navigation.goBack();
+              setTimeout(() => navigation.goBack(), 1000);
             }}>
             Finish
           </Button>
@@ -134,7 +127,7 @@ const WorkoutScreen = ({navigation, route}) => {
             <View style={styles.indicatorContainer}>
               <LoadingSpinner />
             </View>
-          ) : useLogData ? (
+          ) : latestLogFetchError === null ? (
             <View>
               <Text>{JSON.stringify(latestLog, null, 2)}</Text>
             </View>

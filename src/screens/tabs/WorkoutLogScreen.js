@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,6 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import {Headline, Title} from 'react-native-paper';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {Colors} from '../../styles/colors';
 
@@ -30,22 +31,20 @@ const WorkoutLogScreen = () => {
   const [filteredLogs, setFilteredLogs] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (logs === null || logs.length === 0 || modified) {
-      dispatch(fetchLogs());
-    }
-  }, [dispatch, modified]);
+  useFocusEffect(
+    useCallback(() => {
+      if (logs.length === 0 || modified) {
+        dispatch(fetchLogs());
+      } else {
+        filterData();
+      }
+    }, [dispatch, modified, logs.length]),
+  );
 
-  useEffect(() => {
-    if (filteredLogs.length === 0) {
-      filterData();
-    }
-  }, []);
-
-  const filterData = () => {
-    const startingDate = moment().startOf('isoweek');
-    const endingDate = moment().endOf('isoWeek');
-
+  const filterData = (
+    startingDate = moment().startOf('isoWeek'),
+    endingDate = moment().endOf('isoWeek'),
+  ) => {
     const filteredData = logs.filter(logData => {
       let isValid = moment(logData.createdAt).isBetween(
         startingDate,
@@ -61,15 +60,7 @@ const WorkoutLogScreen = () => {
     const startingDate = data;
     const endingDate = moment(data).add(7, 'days');
 
-    const filteredData = logs.filter(logData => {
-      let isValid = moment(logData.createdAt).isBetween(
-        startingDate,
-        endingDate,
-      );
-      return isValid;
-    });
-
-    setFilteredLogs(filteredData);
+    filterData(startingDate, endingDate);
   };
 
   return (

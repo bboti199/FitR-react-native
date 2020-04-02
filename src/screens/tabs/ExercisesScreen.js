@@ -14,6 +14,7 @@ import {
   Portal,
   FAB,
 } from 'react-native-paper';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {Colors} from '../../styles/colors';
 import HeaderLeftButton from '../../components/navigation/HeaderLeftButton';
@@ -42,6 +43,14 @@ const ExercisesScreen = () => {
 
   const listRef = useRef();
 
+  useFocusEffect(
+    useCallback(() => {
+      if (exercises.length === 0 || modified) {
+        dispatch(fetchExercises());
+      }
+    }, [dispatch, exercises.length, modified]),
+  );
+
   const goToListTop = () => {
     listRef.current.scrollToOffset({animated: true, offset: 0});
     setScrolledDown(false);
@@ -57,15 +66,6 @@ const ExercisesScreen = () => {
       setRefreshing(false);
     }
   }, [dispatch, fetching]);
-
-  useEffect(() => {
-    if (exercises.length === 0) {
-      dispatch(fetchExercises());
-    }
-    if (modified) {
-      dispatch(fetchExercises());
-    }
-  }, [dispatch, exercises.length, modified]);
 
   const filteredExercises = exercises.filter(
     createFilter(query, ['name', 'bodyPart']),
@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginBottom: 20,
     marginRight: 20,
-    right: 0,
-    bottom: 0,
+    right: 20,
+    bottom: 60,
     backgroundColor: Colors.bluePrimary,
   },
 });

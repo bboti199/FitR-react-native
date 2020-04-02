@@ -1,48 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import {Text, Card, Title} from 'react-native-paper';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Colors} from '../../styles/colors';
 import {LineChart} from 'react-native-chart-kit';
-import moment from 'moment';
 
-const calcAvg = array => {
-  if (array.length === 0) {
-    return 0;
-  } else {
-    let total = 0;
-    array.map(data => {
-      total += data;
-    });
-
-    return total / array.length;
-  }
-};
-
-const WeightTab = ({progressInfo}) => {
-  const [weightData, setWeightData] = useState([]);
-  const [labels, setLabels] = useState([]);
-
-  useEffect(() => {
-    extractWeightData();
-  }, []);
-
-  const extractWeightData = () => {
-    const extractedWeights = progressInfo.map(data => {
-      return calcAvg(data.weight);
-    });
-
-    const extractedDates = progressInfo.map(data =>
-      moment(data.createdAt).format('DD/MM'),
-    );
-
-    extractedWeights.reverse();
-    extractedDates.reverse();
-
-    setWeightData(extractedWeights);
-    setLabels(extractedDates);
-  };
-
+const WeightTab = ({labels, weight}) => {
   return (
     <View>
       {labels.length ? (
@@ -51,7 +14,7 @@ const WeightTab = ({progressInfo}) => {
             labels,
             datasets: [
               {
-                data: weightData,
+                data: weight,
               },
             ],
           }}
@@ -80,13 +43,58 @@ const WeightTab = ({progressInfo}) => {
             paddingVertical: 0,
           }}
         />
-      ) : null}
+      ) : (
+        <View style={styles.errorContainer}>
+          <Text>This exercise does not contain any log data</Text>
+        </View>
+      )}
     </View>
   );
 };
 
-const WorkloadTab = () => (
-  <View style={[styles.scene, {backgroundColor: '#673ab7'}]} />
+const WorkloadTab = ({labels, workload}) => (
+  <View>
+    {labels.length ? (
+      <LineChart
+        data={{
+          labels,
+          datasets: [
+            {
+              data: workload,
+            },
+          ],
+        }}
+        width={Dimensions.get('window').width}
+        height={250}
+        chartConfig={{
+          backgroundGradientFrom: Colors.bgPrimary,
+          backgroundGradientTo: Colors.bgPrimary,
+          decimalPlaces: 1,
+          color: () => Colors.blueSecondary,
+          labelColor: () => Colors.grey,
+          style: {
+            borderRadius: 20,
+          },
+          propsForDots: {
+            r: 5,
+            strokeWidth: 3,
+            stroke: Colors.bluePrimary,
+          },
+          propsForLabels: {
+            fontFamily: 'NunitoSans-Bold',
+          },
+        }}
+        bezier
+        style={{
+          paddingVertical: 0,
+        }}
+      />
+    ) : (
+      <View style={styles.errorContainer}>
+        <Text>This exercise does not contain any log data</Text>
+      </View>
+    )}
+  </View>
 );
 
 const renderTabBar = props => (
@@ -103,7 +111,7 @@ const renderTabBar = props => (
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const ExerciseProgressCard = ({exercise, progressInfo}) => {
+const ExerciseProgressCard = ({exercise, labels, weight, workload}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'first', title: 'Weight'},
@@ -111,8 +119,8 @@ const ExerciseProgressCard = ({exercise, progressInfo}) => {
   ]);
 
   const renderScene = SceneMap({
-    first: () => <WeightTab progressInfo={progressInfo} />,
-    second: () => <WorkloadTab progressInfo={progressInfo} />,
+    first: () => <WeightTab labels={labels} weight={weight} />,
+    second: () => <WorkloadTab labels={labels} workload={workload} />,
   });
 
   return (
@@ -142,5 +150,12 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
+  },
+  errorContainer: {
+    height: 250,
+    width: Dimensions.get('screen').width,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

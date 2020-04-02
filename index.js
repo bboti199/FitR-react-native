@@ -17,6 +17,7 @@ import LoadingSpinner from './src/components/LoadingSpinner';
 
 import {ThemeProvider as ElementsProvider} from 'react-native-elements';
 import {Provider as ReduxProvider} from 'react-redux';
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 
 import persistConfig from './src/redux/configureStore';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -90,7 +91,9 @@ const Root = () => {
       <PersistGate loading={<LoadingSpinner />} persistor={persistor}>
         <ElementsProvider>
           <PaperProvider theme={theme}>
-            <App />
+            <ActionSheetProvider>
+              <App />
+            </ActionSheetProvider>
           </PaperProvider>
         </ElementsProvider>
       </PersistGate>

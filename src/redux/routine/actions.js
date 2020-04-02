@@ -126,11 +126,8 @@ export const updateRoutine = (routineId, updateData) => async dispatch => {
   }
 };
 
-export const uploadProgressData = (
-  routineId,
-  progressData,
-) => async dispatch => {
-  dispatch({type: RoutineTypes.PROGRESS_CREATE_START});
+export const fetchChartData = (routineId, timePeriod) => async dispatch => {
+  dispatch({type: RoutineTypes.FETCH_CHART_DATA_START});
 
   try {
     const token = (await auth().currentUser.getIdTokenResult()).token;
@@ -141,22 +138,24 @@ export const uploadProgressData = (
       },
     };
 
-    await axios.post(
-      `/api/v1/routine/${routineId}/progress`,
-      progressData,
+    const res = await axios.get(
+      `/api/v1/routine/${routineId}/chart/${timePeriod}`,
       config,
     );
 
-    dispatch({type: RoutineTypes.PROGRESS_CREATE_SUCCESS});
+    dispatch({
+      type: RoutineTypes.FETCH_CHART_DATA_SUCCESS,
+      payload: res.data,
+    });
   } catch (error) {
     if (!error.response) {
       dispatch({
-        type: RoutineTypes.PROGRESS_CREATE_ERROR,
+        type: RoutineTypes.FETCH_CHART_DATA_ERROR,
         payload: 'Can not reach backend',
       });
     } else {
       dispatch({
-        type: RoutineTypes.PROGRESS_CREATE_ERROR,
+        type: RoutineTypes.FETCH_CHART_DATA_ERROR,
         payload: error.response.data.error,
       });
     }

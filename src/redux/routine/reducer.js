@@ -9,15 +9,16 @@ const initialState = {
   creating: false,
   createFinished: false,
   createError: null,
-  progressDataUploading: false,
-  progressDataUploadError: null,
-  progressUploadCompleted: false,
   routineUpdating: false,
   routineUpdateComplete: false,
   updateError: null,
   latestLogFetching: false,
   latestLog: null,
   latestLogFetchError: null,
+  chartData: null,
+  chartDataFetching: false,
+  chartDataFetchError: null,
+  logCreated: false,
 };
 
 export default function(state = initialState, action) {
@@ -31,8 +32,14 @@ export default function(state = initialState, action) {
         deleteError: null,
         fetchError: null,
         createFinished: false,
-        progressUploadCompleted: false,
         routineUpdateComplete: false,
+        logCreated: false,
+      };
+    case RoutineTypes.LOG_CREATED:
+      return {
+        ...state,
+        logCreated: true,
+        modified: true,
       };
     case RoutineTypes.ROUTINE_FETCH_SUCCESS:
       return {
@@ -103,27 +110,6 @@ export default function(state = initialState, action) {
         routineUpdating: false,
         modified: true,
       };
-    case RoutineTypes.PROGRESS_CREATE_START:
-      return {
-        ...state,
-        progressDataUploading: true,
-        progressDataUploadError: null,
-        progressUploadCompleted: false,
-      };
-    case RoutineTypes.PROGRESS_CREATE_SUCCESS:
-      return {
-        ...state,
-        progressDataUploading: false,
-        progressUploadCompleted: true,
-        modified: true,
-      };
-    case RoutineTypes.PROGRESS_CREATE_ERROR:
-      return {
-        ...state,
-        progressDataUploading: false,
-        progressDataUploadError: payload,
-      };
-
     case RoutineTypes.FETCH_LATEST_LOG_START:
       return {
         ...state,
@@ -143,6 +129,26 @@ export default function(state = initialState, action) {
         latestLogFetching: false,
         latestLog: null,
         latestLogFetchError: payload,
+      };
+
+    case RoutineTypes.FETCH_CHART_DATA_START:
+      return {
+        ...state,
+        chartDataFetching: true,
+        chartDataFetchError: null,
+      };
+    case RoutineTypes.FETCH_CHART_DATA_SUCCESS:
+      return {
+        ...state,
+        chartDataFetching: false,
+        chartData: payload,
+      };
+
+    case RoutineTypes.FETCH_CHART_DATA_ERROR:
+      return {
+        ...state,
+        chartDataFetching: false,
+        chartDataFetchError: payload,
       };
 
     case RoutineTypes.CLEANUP:

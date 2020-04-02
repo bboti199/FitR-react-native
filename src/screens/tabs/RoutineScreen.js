@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,6 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import {Headline, Title, Text, Portal} from 'react-native-paper';
+import {useFocusEffect} from '@react-navigation/native';
 
 import HeaderLeftButton from '../../components/navigation/HeaderLeftButton';
 import Feather from 'react-native-vector-icons/Feather';
@@ -26,14 +27,13 @@ const RoutineScreen = ({navigation}) => {
   const fetchError = useSelector(state => state.routines.fetchError);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (routines.length === 0) {
-      dispatch(fetchRoutines());
-    }
-    if (modified) {
-      dispatch(fetchRoutines());
-    }
-  }, [dispatch, routines.length, modified]);
+  useFocusEffect(
+    useCallback(() => {
+      if (routines.length === 0 || modified) {
+        dispatch(fetchRoutines());
+      }
+    }, [routines.length, modified, dispatch]),
+  );
 
   const onRefreshing = useCallback(() => {
     setRefreshing(true);
@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -7,6 +7,8 @@ const initialState = {
   fetchError: null,
   createError: null,
   modified: false,
+  deleting: false,
+  deleteError: null,
 };
 
 export default function(state = initialState, action) {
@@ -49,6 +51,24 @@ export default function(state = initialState, action) {
         ...state,
         creating: false,
         createError: payload,
+      };
+    case LogTypes.DELETE_LOG_START:
+      return {
+        ...state,
+        deleting: true,
+        deleteError: null,
+      };
+    case LogTypes.DELETE_LOG_SUCCESS:
+      return {
+        ...state,
+        modified: true,
+        deleting: false,
+      };
+    case LogTypes.DELETE_LOG_ERROR:
+      return {
+        ...state,
+        deleting: false,
+        deleteError: payload,
       };
     case LogTypes.CLEANUP:
       return initialState;

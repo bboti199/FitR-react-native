@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {Text, Headline, Title} from 'react-native-paper';
+import {Headline, Title} from 'react-native-paper';
 
 import HeaderLeftButton from '../../components/navigation/HeaderLeftButton';
 
@@ -17,8 +17,6 @@ import {Colors} from '../../styles/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import RoutineProgressCard from '../../components/routines/RoutineProgressCard';
-
-const {width, height} = Dimensions.get('screen');
 
 const ProgressScreen = () => {
   const dispatch = useDispatch();
@@ -46,7 +44,12 @@ const ProgressScreen = () => {
             <FlatList
               data={routines}
               keyExtractor={item => item._id}
-              renderItem={({item}) => <RoutineProgressCard routine={item} />}
+              renderItem={({item}) => (
+                <RoutineProgressCard
+                  routineId={item._id}
+                  routineName={item.name}
+                />
+              )}
               showsVerticalScrollIndicator={false}
             />
           </React.Fragment>

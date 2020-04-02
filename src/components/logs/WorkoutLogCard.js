@@ -1,16 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableNativeFeedback} from 'react-native';
 import {Card, Title, Paragraph} from 'react-native-paper';
+import {useActionSheet} from '@expo/react-native-action-sheet';
 
 import Animated, {Easing, Extrapolate} from 'react-native-reanimated';
 
 import {Colors} from '../../styles/colors';
 
 import moment from 'moment';
+import {useDispatch} from 'react-redux';
+import {deleteLog} from '../../redux/logs/actions';
 
 const WorkoutLogCard = ({logData}) => {
   const momentDate = moment(logData.createdAt);
   const [opacityAnimated] = useState(new Animated.Value(0));
+  const {showActionSheetWithOptions} = useActionSheet();
+  const dispatch = useDispatch();
+
+  const showActionSheet = () => {
+    const options = ['Delete', 'Details', 'Cancel'];
+    const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+      },
+      buttonIndex => {
+        if (buttonIndex === destructiveButtonIndex) {
+          dispatch(deleteLog(logData._id));
+        }
+      },
+    );
+  };
 
   useEffect(() => {
     Animated.timing(opacityAnimated, {
@@ -35,21 +59,24 @@ const WorkoutLogCard = ({logData}) => {
           },
         ],
       }}>
-      <View style={styles.cardStyle}>
-        <Card.Content>
-          <View style={styles.container}>
-            <View>
-              <Title>{logData.routine.name}</Title>
+      <TouchableNativeFeedback onLongPress={showActionSheet}>
+        <View style={styles.cardStyle}>
+          <Card.Content>
+            <View style={styles.container}>
+              <View>
+                <Title>{logData.routine.name}</Title>
+              </View>
+
+              <View style={{alignItems: 'center'}}>
+                <Title style={{fontWeight: 'bold'}}>
+                  {momentDate.format('ddd 🔥').toUpperCase()}
+                </Title>
+                <Paragraph>{momentDate.format('MMM DD')}</Paragraph>
+              </View>
             </View>
-            <View style={{alignItems: 'center'}}>
-              <Title style={{fontWeight: 'bold'}}>
-                {momentDate.format('ddd 🔥').toUpperCase()}
-              </Title>
-              <Paragraph>{momentDate.format('MMM DD')}</Paragraph>
-            </View>
-          </View>
-        </Card.Content>
-      </View>
+          </Card.Content>
+        </View>
+      </TouchableNativeFeedback>
     </Animated.View>
   );
 };
