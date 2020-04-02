@@ -1,7 +1,8 @@
 <p align="middle">
   <img src="./screenshots/fitr_logo.png" width="200">
   <h1 align="middle">FitR</h1>
- </p>
+</p>
+
 This is a workout tracking application built with react native.  
 It uses a custom express backend which you can find [here](https://github.com/bboti199/fitr-api-ts) and firebase for handling user sessions and authentication.  
 Currently it only supports Android and it is not complete yet.
@@ -35,6 +36,7 @@ Currently it only supports Android and it is not complete yet.
 </p>
 
 ## TODOS:
+
 - [x] Implement routine and exercise creation.
 - [x] Delete routines and exercises.
 - [x] Update routines.
