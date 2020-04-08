@@ -1,32 +1,69 @@
-import React, {useState, useCallback} from 'react';
-import {StyleSheet, View, FlatList, BackHandler} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, View, FlatList, BackHandler } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
-import {Headline, Button, Portal, Dialog, Text} from 'react-native-paper';
+import {
+  Headline,
+  Button,
+  Portal,
+  Dialog,
+  Text,
+  Snackbar,
+} from 'react-native-paper';
 
 import LoadingSpinner from '../../components/LoadingSpinner';
 
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchLatestLog} from '../../redux/routine/actions';
-import {createLog} from '../../redux/logs/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchLatestLog } from '../../redux/routine/actions';
+import { createLog } from '../../redux/logs/actions';
 
-import {Colors} from '../../styles/colors';
+import { Colors } from '../../styles/colors';
 import ProgressDataCard from '../../components/routines/ProgressDataCard';
+import LogProgressDataCard from '../../components/routines/LogProgressDataCard';
 
-const WorkoutScreen = ({navigation, route}) => {
+import * as yup from 'yup';
+
+const formSchema = yup
+  .array()
+  .of(
+    yup
+      .object({
+        exercise: yup.string().required('Exercise required'),
+        weight: yup
+          .array()
+          .of(yup.number().required())
+          .required()
+          .min(1, 'You must complete at least one set'),
+        reps: yup
+          .array()
+          .of(yup.number().required())
+          .required()
+          .min(1, 'You must complete at least one set'),
+        sets: yup.number().required(),
+      })
+      .required(),
+  )
+  .min(1, 'You must complete at least one exercise');
+
+const WorkoutScreen = ({ navigation, route }) => {
   const routine = route.params.routine;
+
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState([]);
-  const loading = useSelector(state => state.logs.creating);
-  const completed = useSelector(state => state.routines.logCreated);
-  const error = null;
-  const latestLog = useSelector(state => state.routines.latestLog);
+
+  const loading = useSelector((state) => state.logs.creating);
+  const completed = useSelector((state) => state.routines.logCreated);
+
+  const latestLog = useSelector((state) => state.routines.latestLog);
   const latestLogFetching = useSelector(
-    state => state.routines.latestLogFetching,
+    (state) => state.routines.latestLogFetching,
   );
   const latestLogFetchError = useSelector(
-    state => state.routines.latestLogFetchError,
+    (state) => state.routines.latestLogFetchError,
   );
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   useFocusEffect(
     useCallback(() => {
@@ -59,23 +96,52 @@ const WorkoutScreen = ({navigation, route}) => {
   }, [completed, navigation]);
 
   const updateFormData = (progressInfo, exercise) => {
-    const found = formData.find(data => data.id === progressInfo.id);
+    const found = formData.find((data) => data.id === progressInfo.id);
 
     if (!found) {
-      setFormData([...formData, {exercise, ...progressInfo}]);
+      setFormData([...formData, { exercise, ...progressInfo }]);
     }
   };
 
-  const removeFormData = progressInfoID => {
-    setFormData(formData.filter(data => data.id !== progressInfoID));
+  const removeFormData = (progressInfoID) => {
+    setFormData(formData.filter((data) => data.id !== progressInfoID));
+  };
+
+  const handleSubmit = () => {
+    formSchema
+      .validate(formData)
+      .then((data) => {
+        dispatch(createLog(routine._id, data));
+        setTimeout(() => navigation.goBack(), 500);
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
+        setSnackbarVisible(true);
+      });
   };
 
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
 
   const hideDialog = () => setDialogVisible(false);
 
   return (
     <Portal.Host>
+      <Snackbar
+        style={{
+          backgroundColor: Colors.darkGrey,
+          marginHorizontal: 20,
+          marginBottom: 30,
+        }}
+        duration={Snackbar.DURATION_SHORT}
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        action={{
+          label: 'GOT IT',
+          onPress: () => setDialogVisible(false),
+        }}>
+        <Text>{errorMessage}</Text>
+      </Snackbar>
       <Portal>
         <Dialog
           visible={dialogVisible}
@@ -109,35 +175,35 @@ const WorkoutScreen = ({navigation, route}) => {
             Cancel
           </Button>
           <Headline>{routine.name}</Headline>
-          <Button
-            onPress={() => {
-              dispatch(createLog(routine._id, formData));
-              setTimeout(() => navigation.goBack(), 1000);
-            }}>
-            Finish
-          </Button>
+          <Button onPress={handleSubmit}>Finish</Button>
         </View>
         <View style={styles.content}>
-          {error ? (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-          ) : null}
           {loading || latestLogFetching ? (
             <View style={styles.indicatorContainer}>
               <LoadingSpinner />
             </View>
           ) : latestLogFetchError === null ? (
-            <View>
-              <Text>{JSON.stringify(latestLog, null, 2)}</Text>
+            <View style={{ marginHorizontal: 20 }}>
+              <FlatList
+                data={latestLog.workout}
+                keyExtractor={(item) => item._id}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <LogProgressDataCard
+                    item={item}
+                    updateFormData={updateFormData}
+                    removeFormData={removeFormData}
+                  />
+                )}
+              />
             </View>
           ) : (
-            <View style={{marginHorizontal: 20}}>
+            <View style={{ marginHorizontal: 20 }}>
               <FlatList
                 data={routine.routineData}
-                keyExtractor={item => item._id}
+                keyExtractor={(item) => item._id}
                 showsVerticalScrollIndicator={false}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <ProgressDataCard
                     item={item}
                     updateFormData={updateFormData}

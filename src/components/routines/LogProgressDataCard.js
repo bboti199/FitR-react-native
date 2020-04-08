@@ -1,22 +1,24 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import {Card, Title, Checkbox, Paragraph, Button} from 'react-native-paper';
-import {Colors} from '../../styles/colors';
-
+import {Card, Checkbox, Title, Paragraph, Button} from 'react-native-paper';
 import NumericInput from '@wwdrew/react-native-numeric-textinput';
 import Feather from 'react-native-vector-icons/Feather';
 
-const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
-  const [completed, setCompleted] = useState(false);
-  const [exerciseData, setExerciseData] = useState(
-    Array.from({length: item.initialSets}, () => ({
-      weight: 0,
-      reps: item.initialReps,
-      id: Math.random(),
-    })),
-  );
+import {Colors} from '../../styles/colors';
 
-  const toggleCompleted = () => {
+const extractExerciseData = (item) => {
+  return Array.from({length: item.sets}, (_, idx) => ({
+    weight: item.weight[idx],
+    reps: item.reps[idx],
+    id: Math.random(),
+  }));
+};
+
+const LogProgressDataCard = ({item, updateFormData, removeFormData}) => {
+  const [completed, setCompleted] = useState(false);
+  const [exerciseData, setExerciseData] = useState(extractExerciseData(item));
+
+  const toggleComplete = () => {
     if (!completed) {
       updateFormData(
         {
@@ -67,7 +69,7 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
           <Checkbox
             status={completed ? 'checked' : 'unchecked'}
             color={Colors.green}
-            onPress={toggleCompleted}
+            onPress={toggleComplete}
           />
         </View>
         <View style={styles.formContainer}>
@@ -78,12 +80,13 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
             <View />
           </View>
           {exerciseData.map((data, idx) => (
-            <View style={styles.row} key={data.id}>
+            <View style={styles.row} key={idx}>
               <Paragraph>{idx + 1}</Paragraph>
               <NumericInput
                 style={styles.input}
                 value={data.reps}
                 placeholder="0"
+                caretHidden={false}
                 placeholderTextColor={Colors.yellow}
                 onUpdate={(value) => updateRep(value, data.id)}
               />
@@ -91,6 +94,7 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
                 style={styles.input}
                 value={data.weight}
                 placeholder="0"
+                caretHidden={false}
                 placeholderTextColor={Colors.yellow}
                 onUpdate={(value) => updateWeight(value, data.id)}
               />
@@ -117,7 +121,7 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
   );
 };
 
-export default ProgressDataCard;
+export default LogProgressDataCard;
 
 const styles = StyleSheet.create({
   cardStyle: {
@@ -131,20 +135,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  formContainer: {},
   row: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     marginVertical: 5,
-  },
-  rightActionContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingHorizontal: 45,
-    backgroundColor: Colors.red,
-    flex: 1,
   },
   input: {
     color: Colors.fgPrimary,

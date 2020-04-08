@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.6.0",
-    "@gorhom/animated-tabbar": "^0.1.1",
+    "@gorhom/animated-tabbar": "https://github.com/gorhom/react-native-animated-tabbar",
     "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/google-signin": "^4.0.0",
     "@react-native-community/masked-view": "^0.1.7",

@@ -710,10 +710,9 @@
     "@types/hoist-non-react-statics" "^3.3.1"
     hoist-non-react-statics "^3.3.0"
 
-"@gorhom/animated-tabbar@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@gorhom/animated-tabbar/-/animated-tabbar-0.1.1.tgz#b527abb11d9e2874b4f15e550c7cec31b5a611fc"
-  integrity sha512-+woLnKylpMWCsQfkd6BzkVbPqJcL0VOSRbuwYttqSa9vQf2cogRcgplSA/9mGJL1WvhCiNYHAHwsfeCgOo4vow==
+"@gorhom/animated-tabbar@https://github.com/gorhom/react-native-animated-tabbar":
+  version "0.2.2"
+  resolved "https://github.com/gorhom/react-native-animated-tabbar#ed9363650ee2e2ab9491396396692bfe413e3836"
   dependencies:
     react-native-redash "^10.0.1"
 

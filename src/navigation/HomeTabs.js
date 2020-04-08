@@ -1,5 +1,5 @@
 import React from 'react';
-// import {StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import RoutineScreen from '../screens/tabs/RoutineScreen';
 import ExercisesScreen from '../screens/tabs/ExercisesScreen';
@@ -88,13 +88,30 @@ export const BottomTabs = () => (
   <Tab.Navigator
     backBehavior="initialRoute"
     initialRouteName="Routines"
-    tabBar={props => <AnimatedTabBar tabs={tabs} {...props} />}>
+    tabBar={props => (
+      <AnimatedTabBar style={styles.tabBar} tabs={tabs} {...props} />
+    )}>
     <Tab.Screen name="Routines" component={RoutineScreen} />
     <Tab.Screen name="Exercises" component={ExercisesScreen} />
     <Tab.Screen name="Progress" component={ProgressScreen} />
     <Tab.Screen name="Logs" component={WorkoutLogScreen} />
   </Tab.Navigator>
 );
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: '#101010',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+});
 
 // const Tab = createMaterialBottomTabNavigator();
 

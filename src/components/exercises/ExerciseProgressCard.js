@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import {Text, Card, Title} from 'react-native-paper';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
@@ -97,7 +97,7 @@ const WorkloadTab = ({labels, workload}) => (
   </View>
 );
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
@@ -126,7 +126,7 @@ const ExerciseProgressCard = ({exercise, labels, weight, workload}) => {
   return (
     <Card style={styles.cardStyle}>
       <Title style={{alignSelf: 'center', marginVertical: 10}}>
-        {exercise.name}
+        {exercise}
       </Title>
 
       <TabView
