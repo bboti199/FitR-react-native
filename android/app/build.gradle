@@ -151,10 +151,18 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if(project.hasProperty('FITR_RELEASE_STORE_FILE')) {
+                storeFile file(FITR_RELEASE_STORE_FILE)
+                storePassword FITR_RELEASE_STORE_PASSWORD
+                keyAlias FITR_RELEASE_KEY_ALIAS
+                keyPassword FITR_RELEASE_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
         release {
             // Caution! In production, you need to generate your own keystore file.

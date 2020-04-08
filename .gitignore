@@ -4,6 +4,7 @@
 
 .env
 android/app/google-services.json
+gradle.properties
 
 # Xcode
 #
