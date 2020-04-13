@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState, useCallback} from 'react';
+import React, {useRef, useState, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -118,18 +118,23 @@ const WorkoutLogScreen = () => {
             <LoadingSpinner />
           </View>
         ) : logs.length === 0 ? (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.messageContainer}>
             <Title>You did not complete a workout yet.</Title>
           </View>
         ) : (
           <View style={styles.cardContainer}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={filteredLogs}
-              keyExtractor={item => item._id}
-              renderItem={({item}) => <WorkoutLogCard logData={item} />}
-            />
+            {filteredLogs.length > 0 ? (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={filteredLogs}
+                keyExtractor={item => item._id}
+                renderItem={({item}) => <WorkoutLogCard logData={item} />}
+              />
+            ) : (
+              <View style={styles.messageContainer}>
+                <Title>You do not have a workout for this week.</Title>
+              </View>
+            )}
           </View>
         )}
       </GestureRecognizer>
@@ -178,4 +183,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  messageContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });

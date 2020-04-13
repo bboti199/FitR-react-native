@@ -6,7 +6,7 @@ import {
   StatusBar,
   FlatList,
 } from 'react-native';
-import {Text, Headline, Searchbar} from 'react-native-paper';
+import {Headline, Searchbar} from 'react-native-paper';
 
 import {createFilter} from 'react-native-search-filter';
 import {useSelector, useDispatch} from 'react-redux';

@@ -5,6 +5,8 @@ const initialState = {
   isAuth: false,
   loading: false,
   error: null,
+  pictureUploading: false,
+  pictureUploadError: null,
 };
 
 export default function(state = initialState, action) {
@@ -48,6 +50,23 @@ export default function(state = initialState, action) {
         user: null,
         isAuth: false,
         error: null,
+      };
+    case AuthTypes.PICTURE_UPLOAD_START:
+      return {
+        ...state,
+        pictureUploading: true,
+        pictureUploadError: null,
+      };
+    case AuthTypes.PICTURE_UPLOAD_SUCCESS:
+      return {
+        ...state,
+        pictureUploading: false,
+      };
+    case AuthTypes.PICTURE_UPLOAD_ERROR:
+      return {
+        ...state,
+        pictureUploading: false,
+        pictureUploadError: payload,
       };
     case AuthTypes.SET_USER:
       return {

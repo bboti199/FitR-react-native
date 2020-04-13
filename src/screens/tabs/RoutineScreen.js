@@ -91,6 +91,7 @@ const RoutineScreen = ({navigation}) => {
                 refreshing={refreshing}
                 onRefresh={onRefreshing}
                 showsVerticalScrollIndicator={false}
+                style={{marginBottom: 60}}
               />
             )}
           </View>
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   routineContainer: {
-    marginTop: 20,
+    marginTop: 10,
     marginVertical: 5,
     marginBottom: 30,
   },

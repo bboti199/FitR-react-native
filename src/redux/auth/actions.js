@@ -1,10 +1,12 @@
 import auth, {firebase} from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import md5 from 'md5';
 import {AuthTypes} from './types';
 import {ExerciseTypes} from '../exercise/types';
 import {LogTypes} from '../logs/types';
+var RNFS = require('react-native-fs');
 
 export const loginWithEmailAndPassword = (
   email,
@@ -116,6 +118,45 @@ export const registerWithEmailAndPassword = ({
     dispatch({
       type: AuthTypes.REGISTER_ERROR,
       payload: error.userInfo.message,
+    });
+  }
+};
+
+export const updateProfile = data => async dispatch => {
+  try {
+    await auth().currentUser.updateProfile(data);
+    const user = auth().currentUser;
+    await dispatch(setUser(user));
+  } catch (error) {}
+};
+
+export const uploadProfilePicture = data => async dispatch => {
+  dispatch({type: AuthTypes.PICTURE_UPLOAD_START});
+  const currenPhoto = auth().currentUser.photoURL;
+
+  try {
+    const avatarSignature = md5(
+      `${auth().currentUser.uid + auth().currentUser.email}`,
+    );
+    const imageRef = storage().ref(`avatars/avatar_${avatarSignature}.jpg`);
+
+    await imageRef.putFile(data.path);
+
+    if (RNFS.exists(data.path)) {
+      await RNFS.unlink(data.path);
+      await RNFS.scanFile(data.path);
+    }
+
+    const imageUri = await imageRef.getDownloadURL();
+    dispatch(updateProfile({photoURL: imageUri}));
+
+    dispatch({type: AuthTypes.PICTURE_UPLOAD_SUCCESS});
+  } catch (error) {
+    // console.log(error);
+    dispatch(updateProfile({photoURL: currenPhoto}));
+    dispatch({
+      type: AuthTypes.PICTURE_UPLOAD_ERROR,
+      payload: 'An error occured during image upload.',
     });
   }
 };

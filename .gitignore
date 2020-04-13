@@ -5,7 +5,7 @@
 .env
 android/app/google-services.json
 gradle.properties
-
+android/app/release
 # Xcode
 #
 build/

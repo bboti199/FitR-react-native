@@ -12,7 +12,7 @@ const initialState = {
   routineUpdating: false,
   routineUpdateComplete: false,
   updateError: null,
-  latestLogFetching: false,
+  latestLogFetching: true,
   latestLog: null,
   latestLogFetchError: null,
   chartData: null,
