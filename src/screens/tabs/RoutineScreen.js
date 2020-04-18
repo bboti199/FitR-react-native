@@ -18,6 +18,7 @@ import {Colors} from '../../styles/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchRoutines} from '../../redux/routine/actions';
 import RoutineCard from '../../components/routines/RoutineCard';
+import {globalStyles} from '../../styles/global';
 
 const RoutineScreen = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -47,13 +48,13 @@ const RoutineScreen = ({navigation}) => {
 
   return (
     <Portal.Host>
-      <View style={styles.container}>
+      <View style={globalStyles.mainContainer}>
         <StatusBar
           animated={true}
           barStyle="light-content"
           backgroundColor={Colors.bgSecondary}
         />
-        <View style={styles.titleContainer}>
+        <View style={globalStyles.titleContainer}>
           <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
           <Headline>Routines</Headline>
           <TouchableOpacity
@@ -63,27 +64,27 @@ const RoutineScreen = ({navigation}) => {
             <Feather name="plus" size={26} color={Colors.fgPrimary} />
           </TouchableOpacity>
         </View>
-        <View style={styles.content}>
+        <View style={globalStyles.content}>
           <View style={styles.routineInfoContainer}>
             <Title>Total: {routines.length}</Title>
             <TouchableOpacity onPress={() => dispatch(fetchRoutines())}>
               <Feather name="refresh-cw" size={26} color={Colors.fgPrimary} />
             </TouchableOpacity>
           </View>
-          <View style={styles.routineContainer}>
-            {fetching ? (
-              <View style={styles.indicatorContainer}>
-                <LoadingSpinner />
-              </View>
-            ) : fetchError ? (
-              <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>{fetchError}</Text>
-              </View>
-            ) : routines.length === 0 ? (
-              <View style={styles.errorContainer}>
-                <Title>You do not have any routines yet...</Title>
-              </View>
-            ) : (
+          {fetching ? (
+            <View style={globalStyles.indicatorContainer}>
+              <LoadingSpinner />
+            </View>
+          ) : fetchError ? (
+            <View style={globalStyles.errorContainer}>
+              <Text style={globalStyles.errorText}>{fetchError}</Text>
+            </View>
+          ) : routines.length === 0 ? (
+            <View style={globalStyles.errorContainer}>
+              <Title>You do not have any routines yet...</Title>
+            </View>
+          ) : (
+            <View style={styles.routineContainer}>
               <FlatList
                 data={routines}
                 renderItem={({item}) => <RoutineCard routine={item} />}
@@ -93,8 +94,8 @@ const RoutineScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 style={{marginBottom: 60}}
               />
-            )}
-          </View>
+            </View>
+          )}
         </View>
       </View>
     </Portal.Host>
@@ -104,30 +105,6 @@ const RoutineScreen = ({navigation}) => {
 export default RoutineScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -20,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 10,
-  },
   routineInfoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -138,20 +115,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginVertical: 5,
     marginBottom: 30,
-  },
-  errorText: {
-    color: Colors.red,
-  },
-  errorContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  indicatorContainer: {
-    alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 250,
   },
 });

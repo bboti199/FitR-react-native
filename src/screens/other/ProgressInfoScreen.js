@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {StyleSheet, View, TouchableOpacity, FlatList} from 'react-native';
-import {Headline, Text, Menu, Button, Caption} from 'react-native-paper';
+import {Headline, Menu, Title, Caption} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchChartData} from '../../redux/routine/actions';
 import {useFocusEffect} from '@react-navigation/native';
@@ -10,6 +10,7 @@ import {Colors} from '../../styles/colors';
 
 import Feather from 'react-native-vector-icons/Feather';
 import ExerciseProgressCard from '../../components/exercises/ExerciseProgressCard';
+import {globalStyles} from '../../styles/global';
 
 const ProgressInfoScreen = ({navigation, route}) => {
   const routineId = route.params.routineId;
@@ -48,8 +49,8 @@ const ProgressInfoScreen = ({navigation, route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
+    <View style={globalStyles.mainContainer}>
+      <View style={globalStyles.titleContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={26} color={Colors.fgPrimary} />
         </TouchableOpacity>
@@ -97,13 +98,13 @@ const ProgressInfoScreen = ({navigation, route}) => {
           </Menu>
         </View>
       </View>
-      <View style={styles.content}>
+      <View style={globalStyles.content}>
         <View style={styles.menuContainer} />
         {error ? (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text>
+          <View style={globalStyles.errorContainer}>
+            <Title style={globalStyles.errorText}>{error}</Title>
           </View>
-        ) : (
+        ) : chartData && chartData.length !== 0 ? (
           <FlatList
             data={chartData}
             renderItem={({item}) => (
@@ -117,6 +118,10 @@ const ProgressInfoScreen = ({navigation, route}) => {
             keyExtractor={item => item.exercise}
             showsVerticalScrollIndicator={false}
           />
+        ) : (
+          <View style={globalStyles.errorContainer}>
+            <Title>No progress data found for this routine</Title>
+          </View>
         )}
       </View>
     </View>
@@ -126,38 +131,6 @@ const ProgressInfoScreen = ({navigation, route}) => {
 export default ProgressInfoScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -20,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 20,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    color: Colors.red,
-  },
   menuContainer: {
     marginVertical: 10,
     justifyContent: 'center',

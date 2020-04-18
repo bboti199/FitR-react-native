@@ -22,6 +22,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import WorkoutLogCard from '../../components/logs/WorkoutLogCard';
 import moment from 'moment';
+import {globalStyles} from '../../styles/global';
 
 const WorkoutLogScreen = () => {
   const calendarRef = useRef(null);
@@ -64,8 +65,8 @@ const WorkoutLogScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
+    <View style={globalStyles.mainContainer}>
+      <View style={globalStyles.titleContainer}>
         <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
         <Headline>Workout Logs</Headline>
         <TouchableOpacity
@@ -79,7 +80,7 @@ const WorkoutLogScreen = () => {
         onSwipeLeft={() => calendarRef.current.getNextWeek()}
         onSwipeRight={() => calendarRef.current.getPreviousWeek()}
         config={{velocityThreshold: 0.1, directionalOffsetThreshold: 50}}
-        style={styles.content}>
+        style={globalStyles.content}>
         <CalendarStrip
           style={styles.stripStyle}
           daySelectionAnimation={{
@@ -114,7 +115,7 @@ const WorkoutLogScreen = () => {
         />
 
         {fetching ? (
-          <View style={styles.indicatorContainer}>
+          <View style={globalStyles.indicatorContainer}>
             <LoadingSpinner />
           </View>
         ) : logs.length === 0 ? (
@@ -145,28 +146,6 @@ const WorkoutLogScreen = () => {
 export default WorkoutLogScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -10,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
   stripStyle: {
     height: Dimensions.get('screen').height * 0.17,
     backgroundColor: '#151515',
@@ -178,10 +157,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 40,
   },
-  indicatorContainer: {
+  messageContainer: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  messageContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });

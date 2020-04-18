@@ -15,6 +15,7 @@ import moment from 'moment';
 import ImagePicker from 'react-native-image-picker';
 
 import Feather from 'react-native-vector-icons/Feather';
+import {globalStyles} from '../../styles/global';
 
 const ProfileScreen = () => {
   const user = useSelector(state => state.auth.user);
@@ -69,13 +70,13 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
+    <View style={globalStyles.mainContainer}>
+      <View style={globalStyles.titleContainer}>
         <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
         <Headline>Profile</Headline>
         <View />
       </View>
-      <View style={styles.content}>
+      <View style={globalStyles.content}>
         <View style={styles.avatarContainer}>
           {pictureUploading ? (
             <View style={styles.avatarPlaceholder}>
@@ -153,30 +154,6 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -20,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 10,
-  },
   avatarContainer: {
     justifyContent: 'center',
     alignItems: 'center',

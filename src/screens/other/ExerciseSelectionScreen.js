@@ -17,6 +17,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 import {Colors} from '../../styles/colors';
 import Feather from 'react-native-vector-icons/Feather';
+import {globalStyles} from '../../styles/global';
 
 const ExerciseSelectionScreen = ({navigation, route}) => {
   const [query, setQuery] = useState('');
@@ -74,7 +75,7 @@ const ExerciseSelectionScreen = ({navigation, route}) => {
             />
           </View>
         ) : (
-          <View style={styles.indicatorContainer}>
+          <View style={globalStyles.indicatorContainer}>
             <LoadingSpinner />
           </View>
         )}
@@ -101,11 +102,5 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     flex: 1,
-  },
-  indicatorContainer: {
-    alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

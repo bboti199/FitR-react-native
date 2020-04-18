@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -29,6 +29,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {createFilter} from 'react-native-search-filter';
 import ExerciseCard from '../../components/exercises/ExerciseCard';
 import ExerciseModal from '../../components/exercises/ExerciseModal';
+import {globalStyles} from '../../styles/global';
 
 const ExercisesScreen = () => {
   const dispatch = useDispatch();
@@ -88,16 +89,16 @@ const ExercisesScreen = () => {
           }}
         />
       </Portal>
-      <View style={styles.container}>
+      <View style={globalStyles.mainContainer}>
         <StatusBar backgroundColor={Colors.bgSecondary} />
-        <View style={styles.titleContainer}>
+        <View style={globalStyles.titleContainer}>
           <HeaderLeftButton size={26} buttonStyle={{color: Colors.fgPrimary}} />
           <Headline>Exercises</Headline>
           <TouchableOpacity onPress={() => {}}>
             <Feather name="filter" size={26} color={Colors.fgPrimary} />
           </TouchableOpacity>
         </View>
-        <View style={styles.content}>
+        <View style={globalStyles.content}>
           <View style={styles.searchBar}>
             <Searchbar
               placeholder="Search exercises..."
@@ -114,12 +115,13 @@ const ExercisesScreen = () => {
               <Feather name="refresh-cw" size={26} color={Colors.fgPrimary} />
             </TouchableOpacity>
           </View>
-          <View style={styles.exerciseContainer}>
-            {fetching ? (
-              <View style={styles.indicatorContainer}>
-                <LoadingSpinner />
-              </View>
-            ) : !fetchError ? (
+
+          {fetching ? (
+            <View style={globalStyles.indicatorContainer}>
+              <LoadingSpinner />
+            </View>
+          ) : !fetchError ? (
+            <View style={styles.exerciseContainer}>
               <FlatList
                 style={{marginBottom: 50}}
                 data={filteredExercises}
@@ -131,12 +133,12 @@ const ExercisesScreen = () => {
                 ref={listRef}
                 onScrollEndDrag={() => setScrolledDown(true)}
               />
-            ) : (
-              <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>{fetchError}</Text>
-              </View>
-            )}
-          </View>
+            </View>
+          ) : (
+            <View style={globalStyles.errorContainer}>
+              <Text style={globalStyles.errorText}>{fetchError}</Text>
+            </View>
+          )}
         </View>
       </View>
     </Portal.Host>
@@ -146,30 +148,6 @@ const ExercisesScreen = () => {
 export default ExercisesScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -20,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 20,
-  },
   searchBar: {
     marginBottom: 20,
   },
@@ -178,7 +156,7 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.grey,
     marginBottom: 15,
     alignItems: 'center',
-    marginHorizontal: 60,
+    marginHorizontal: 40,
   },
   exerciseInfoContainer: {
     flexDirection: 'row',
@@ -186,26 +164,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 10,
   },
-  errorText: {
-    color: Colors.red,
-  },
-  errorContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   exerciseContainer: {
     marginTop: 20,
     marginVertical: 5,
     marginBottom: 50,
-  },
-  indicatorContainer: {
-    alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 250,
   },
   fab: {
     position: 'absolute',

@@ -22,6 +22,7 @@ import ProgressDataCard from '../../components/routines/ProgressDataCard';
 import LogProgressDataCard from '../../components/routines/LogProgressDataCard';
 
 import * as yup from 'yup';
+import {globalStyles} from '../../styles/global';
 
 const formSchema = yup
   .array()
@@ -161,8 +162,8 @@ const WorkoutScreen = ({navigation, route}) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
+      <View style={globalStyles.mainContainer}>
+        <View style={globalStyles.titleContainer}>
           <Button
             color={Colors.red}
             onPress={() => {
@@ -173,9 +174,9 @@ const WorkoutScreen = ({navigation, route}) => {
           <Headline>{routine.name}</Headline>
           <Button onPress={handleSubmit}>Finish</Button>
         </View>
-        <View style={styles.content}>
+        <View style={globalStyles.content}>
           {loading || latestLogFetching ? (
-            <View style={styles.indicatorContainer}>
+            <View style={globalStyles.indicatorContainer}>
               <LoadingSpinner />
             </View>
           ) : latestLogFetchError === null ? (
@@ -218,30 +219,6 @@ const WorkoutScreen = ({navigation, route}) => {
 export default WorkoutScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.bgSecondary,
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginHorizontal: 10,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 30,
-    paddingHorizontal: 10,
-  },
   dialogStyle: {
     borderRadius: 25,
     marginHorizontal: 50,
@@ -249,21 +226,6 @@ const styles = StyleSheet.create({
   dialogActionStyle: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  errorText: {
-    color: Colors.red,
-  },
-  errorContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  indicatorContainer: {
-    alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   snackbarStyle: {

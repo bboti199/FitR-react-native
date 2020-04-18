@@ -17,6 +17,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {createRoutine} from '../../redux/routine/actions';
 
 import {Colors} from '../../styles/colors';
+import {globalStyles} from '../../styles/global';
 import Feather from 'react-native-vector-icons/Feather';
 
 const formSchema = yup.object().shape({
@@ -184,9 +185,9 @@ const CreateRoutineScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.mainContainer}>
       <StatusBar animated={true} backgroundColor={Colors.bgSecondary} />
-      <View style={styles.titleContainer}>
+      <View style={globalStyles.titleContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" color={Colors.fgPrimary} size={26} />
         </TouchableOpacity>
@@ -195,7 +196,7 @@ const CreateRoutineScreen = ({navigation}) => {
           <Feather name="check" color={Colors.fgPrimary} size={26} />
         </TouchableOpacity>
       </View>
-      <View style={styles.content}>
+      <View style={globalStyles.content}>
         <View style={styles.formContainer}>
           <TextInput
             label="Name"
@@ -230,8 +231,8 @@ const CreateRoutineScreen = ({navigation}) => {
         </View>
         <View style={styles.separator} />
         <View style={styles.exerciseContainer}>
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorMessage}>{formError}</Text>
+          <View style={globalStyles.errorContainer}>
+            <Text style={globalStyles.errorMessage}>{formError}</Text>
           </View>
           {creating ? (
             <View style={styles.loadingOverlay}>
@@ -263,30 +264,6 @@ const CreateRoutineScreen = ({navigation}) => {
 export default CreateRoutineScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bgSecondary,
-    justifyContent: 'flex-start',
-    paddingTop: 15,
-  },
-  titleContainer: {
-    backgroundColor: Colors.bgSecondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginHorizontal: -20,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: Colors.bgPrimary,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingTop: 30,
-    paddingHorizontal: 10,
-  },
   formContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -303,15 +280,6 @@ const styles = StyleSheet.create({
   exerciseContainer: {
     marginHorizontal: 20,
     flex: 1,
-  },
-  errorContainer: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: 15,
-  },
-  errorMessage: {
-    color: Colors.red,
-    fontSize: 16,
   },
   loadingOverlay: {
     position: 'absolute',
