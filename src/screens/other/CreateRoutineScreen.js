@@ -279,7 +279,6 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     marginHorizontal: 20,
-    flex: 1,
   },
   loadingOverlay: {
     position: 'absolute',

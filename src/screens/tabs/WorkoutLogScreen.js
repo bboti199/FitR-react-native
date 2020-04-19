@@ -152,6 +152,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 20,
     paddingHorizontal: 10,
+    marginHorizontal: -15,
+    marginTop: -30,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   cardContainer: {
     paddingHorizontal: 20,

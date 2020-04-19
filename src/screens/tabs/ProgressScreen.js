@@ -35,7 +35,9 @@ const ProgressScreen = () => {
           </View>
         ) : (
           <React.Fragment>
-            <Title style={{marginBottom: 10}}>Tap to show details</Title>
+            <Title style={{marginBottom: 10, marginLeft: 10}}>
+              Tap to show details
+            </Title>
             <FlatList
               data={routines}
               keyExtractor={item => item._id}

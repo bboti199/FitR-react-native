@@ -48,6 +48,7 @@ const RoutineScreen = ({navigation}) => {
 
   return (
     <Portal.Host>
+      {/* <OfflineNotice /> */}
       <View style={globalStyles.mainContainer}>
         <StatusBar
           animated={true}

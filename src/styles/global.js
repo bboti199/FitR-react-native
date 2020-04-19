@@ -25,7 +25,7 @@ export const globalStyles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 30,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   indicatorContainer: {
     flex: 1,

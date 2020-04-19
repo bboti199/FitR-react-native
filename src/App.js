@@ -11,6 +11,7 @@ import NetInfo from '@react-native-community/netinfo';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthStack} from './navigation/AuthStack';
 import {HomeNavigation} from './navigation/HomeNav';
+import OfflineNotice from './components/OfflineNotice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <OfflineNotice />
       {isAuth ? <HomeNavigation /> : <AuthStack />}
     </NavigationContainer>
   );

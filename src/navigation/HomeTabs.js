@@ -30,7 +30,7 @@ const tabs = {
       inactiveColor: 'rgba(0,0,0,1)',
     },
     background: {
-      activeColor: '#363636',
+      activeColor: '#718096',
       inactiveColor: 'rgba(223,215,243,0)',
     },
   },
@@ -46,7 +46,7 @@ const tabs = {
       inactiveColor: 'rgba(0,0,0,1)',
     },
     background: {
-      activeColor: '#363636',
+      activeColor: '#718096',
       inactiveColor: 'rgba(247,215,243,0)',
     },
   },
@@ -62,7 +62,7 @@ const tabs = {
       inactiveColor: 'rgba(0,0,0,1)',
     },
     background: {
-      activeColor: '#363636',
+      activeColor: '#718096',
       inactiveColor: 'rgba(251,239,211,0)',
     },
   },
@@ -78,7 +78,7 @@ const tabs = {
       inactiveColor: 'rgba(0,0,0,1)',
     },
     background: {
-      activeColor: '#363636',
+      activeColor: '#718096',
       inactiveColor: 'rgba(207,235,239,0)',
     },
   },
@@ -100,7 +100,7 @@ export const BottomTabs = () => (
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#101010',
+    backgroundColor: Colors.bgSecondary,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 24,
