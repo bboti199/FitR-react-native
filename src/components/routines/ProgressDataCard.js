@@ -21,8 +21,8 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
       updateFormData(
         {
           sets: exerciseData.length,
-          reps: exerciseData.map((e) => e.reps),
-          weight: exerciseData.map((e) => e.weight),
+          reps: exerciseData.map(e => e.reps),
+          weight: exerciseData.map(e => e.weight),
           id: item._id,
         },
         item.exercise._id,
@@ -33,12 +33,12 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
     setCompleted(!completed);
   };
 
-  const removeSet = (id) => {
-    setExerciseData(exerciseData.filter((data) => data.id !== id));
+  const removeSet = id => {
+    setExerciseData(exerciseData.filter(data => data.id !== id));
   };
 
   const updateRep = (value, id) => {
-    const idx = exerciseData.findIndex((e) => e.id === id);
+    const idx = exerciseData.findIndex(e => e.id === id);
 
     if (idx !== -1) {
       let newState = [...exerciseData];
@@ -49,7 +49,7 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
   };
 
   const updateWeight = (value, id) => {
-    const idx = exerciseData.findIndex((e) => e.id === id);
+    const idx = exerciseData.findIndex(e => e.id === id);
 
     if (idx !== -1) {
       let newState = [...exerciseData];
@@ -85,14 +85,14 @@ const ProgressDataCard = ({item, updateFormData, removeFormData}) => {
                 value={data.reps}
                 placeholder="0"
                 placeholderTextColor={Colors.yellow}
-                onUpdate={(value) => updateRep(value, data.id)}
+                onUpdate={value => updateRep(value, data.id)}
               />
               <NumericInput
                 style={styles.input}
                 value={data.weight}
                 placeholder="0"
                 placeholderTextColor={Colors.yellow}
-                onUpdate={(value) => updateWeight(value, data.id)}
+                onUpdate={value => updateWeight(value, data.id)}
               />
               <TouchableOpacity
                 onPress={() => {

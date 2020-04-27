@@ -12,16 +12,3 @@ export const Colors = {
   purple: '#623cbb',
   surface: '#21252a',
 };
-
-// export const Colors = {
-//   bgPrimary: '#E2E2E2',
-//   bgSecondary: '#fff',
-//   fgPrimary: '#000',
-//   bluePrimary: '#197fd2',
-//   blueSecondary: '#48afdf',
-//   red: '#ff6363',
-//   green: '#50d890',
-//   yellow: '#ffd082',
-//   grey: '#c9d6df',
-//   purple: '#623cbb',
-// };
