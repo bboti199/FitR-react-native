@@ -24,7 +24,7 @@
     "@react-navigation/native": "^5.0.9",
     "@react-navigation/stack": "^5.1.1",
     "@wwdrew/react-native-numeric-textinput": "^1.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "formik": "^2.1.4",
     "md5": "^2.2.1",
     "moment": "^2.24.0",
