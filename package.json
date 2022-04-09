@@ -27,7 +27,7 @@
     "axios": "^0.19.2",
     "formik": "^2.1.4",
     "md5": "^2.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-calendar-strip": "^1.4.1",
